@@ -45,3 +45,11 @@ $RECYCLE.BIN/
 Network Trash Folder
 Temporary Items
 .apdisk
+*.db
+target/*
+.settings/*
+.classpath
+.project
+src/org/*
+src/main/org/*
+src/main/java/org/*
