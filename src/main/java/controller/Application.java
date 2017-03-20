@@ -6,7 +6,6 @@ import org.springframework.boot.autoconfigure.*;
 import org.springframework.boot.web.servlet.ServletRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.web.bind.annotation.*;
-import bean.User;
 import dbc.UserDBC;
 
 @RestController
@@ -17,17 +16,26 @@ public class Application {
 	String login(@RequestParam(name ="username", defaultValue="def_username", required=true) String username,
 	@RequestParam(name ="password", required=true) String password) {
 		System.out.println("login: user: " + username + " password: " + password);
-		return "login";
+		if(UserDBC.isNameAndPassCorrect(username, password)) {
+			return "Passt";
+		} else {
+			return "Passt nicht";
+		}
 	}
 	
 	@RequestMapping(value="/register",  method = RequestMethod.POST)
-	public User register(@RequestParam(name ="username") String username,
+	public String register(@RequestParam(name ="username") String username,
 	@RequestParam(name ="password") String password) {
 		System.out.println("reg: user: " + username + " password: " + password);
-		return new User(username, password);
+		if(UserDBC.findUserByName(username) == null) {
+			UserDBC.createUser(username, password);
+			return "reg: user: " + username + " password: " + password;
+		} else {
+			return "user exists";
+		}
 	}
 	
-	// for the h2 console
+	// for the h2 database console
 	@Bean
 	public ServletRegistrationBean h2servletRegistration() {
 	    ServletRegistrationBean registration = new ServletRegistrationBean(new WebServlet());
@@ -37,8 +45,8 @@ public class Application {
 	
 	public static void main(String[] args) throws Exception{
 		UserDBC.connect();
-		UserDBC.showDB();
-		UserDBC.close();
+		UserDBC.updateUserList();
+		// UserDBC.close();
 		SpringApplication.run(Application.class, args);
 	}
 }
