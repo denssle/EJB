@@ -18,9 +18,9 @@ public class Application {
 	@RequestParam(name ="password", required=true) String password) {
 		System.out.println("login: user: " + username + " password: " + password);
 		if(UserDBC.isNameAndPassCorrect(username, password)) {
-			return "Passt";
+			return "welcome user: " + username;
 		} else {
-			return "Passt nicht";
+			return "user not found";
 		}
 	}
 	
@@ -30,9 +30,9 @@ public class Application {
 		System.out.println("reg: user: " + username + " password: " + password);
 		if(UserDBC.findUserByName(username) == null) {
 			UserDBC.createUser(username, password);
-			return "reg: user: " + username + " password: " + password;
+			return "welcome user: " + username;
 		} else {
-			return "user exists";
+			return "user already exists";
 		}
 	}
 	

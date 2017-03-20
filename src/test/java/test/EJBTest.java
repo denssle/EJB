@@ -63,7 +63,7 @@ public class EJBTest {
 			byte[] salt = PasswordHash.getSalt();
 			String hash1 = PasswordHash.getHash("test1", salt);
 			String hash2 = PasswordHash.getHash("test2", salt);
-			assertEquals(hash1, hash2);
+			assertNotEquals(hash1, hash2);
 		} catch (NoSuchAlgorithmException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -71,6 +71,5 @@ public class EJBTest {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
 	}
 }

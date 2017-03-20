@@ -18,18 +18,31 @@ public class UserDBC {
 	private static DSLContext create;
 	private static ArrayList<User> users; 
 	
-    public static void connect() throws Exception {    	
-    	Class.forName("org.h2.Driver");
-    	String url = "jdbc:h2:~/test";
-		String user = "sa";
-		String pw = "";
-		connection = DriverManager.getConnection(url, user, pw);
-		create = DSL.using(connection, SQLDialect.H2);
-		users = new ArrayList<>();
+    public static void connect() {    	
+    	try {
+			Class.forName("org.h2.Driver");
+			String url = "jdbc:h2:~/test";
+			String user = "sa";
+			String pw = "";
+			connection = DriverManager.getConnection(url, user, pw);
+			create = DSL.using(connection, SQLDialect.H2);
+			users = new ArrayList<>();
+		} catch (ClassNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
     }
     
-    public static void close() throws Exception {
-    	connection.close();
+    public static void close() {
+    	try {
+			connection.close();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 	
 	public static void updateUserList() {
