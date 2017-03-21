@@ -12,6 +12,7 @@ import org.jooq.exception.DataAccessException;
 import org.jooq.impl.*;
 
 import bean.User;
+import constants.C;
 
 public class UserDBC {
 	private static Connection connection;
@@ -20,10 +21,10 @@ public class UserDBC {
 	
     public static void connect() {    	
     	try {
-			Class.forName("org.h2.Driver");
-			String url = "jdbc:h2:~/test";
-			String user = "sa";
-			String pw = "";
+			Class.forName(C.DB_DRIVER);
+			String url = C.DB_URL;
+			String user = C.DB_USER;
+			String pw = C.DB_PASSWORD;
 			connection = DriverManager.getConnection(url, user, pw);
 			create = DSL.using(connection, SQLDialect.H2);
 			users = new ArrayList<>();

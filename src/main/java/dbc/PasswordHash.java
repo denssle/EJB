@@ -9,15 +9,17 @@ import java.util.Base64;
 import javax.crypto.SecretKeyFactory;
 import javax.crypto.spec.PBEKeySpec;
 
+import constants.C;
+
 public class PasswordHash {
 	public static byte[] getSalt() throws NoSuchAlgorithmException {
-		byte[] salt = SecureRandom.getInstance("SHA1PRNG").generateSeed(32);
+		byte[] salt = SecureRandom.getInstance(C.SALT).generateSeed(32);
 		return salt;
 	}
 
 	public static String getHash(String password, byte[] salt) throws NoSuchAlgorithmException, InvalidKeySpecException {
 		KeySpec spec = new PBEKeySpec(password.toCharArray(), salt, 65536, 128);
-		SecretKeyFactory f = SecretKeyFactory.getInstance("PBKDF2WithHmacSHA1");
+		SecretKeyFactory f = SecretKeyFactory.getInstance(C.HASH);
 		byte[] hash = f.generateSecret(spec).getEncoded();
 		Base64.Encoder enc = Base64.getEncoder();
 		return enc.encodeToString(hash);
@@ -31,12 +33,12 @@ public class PasswordHash {
 	
 	private static String combineHashAndSalt(String hash, byte[] salt) {
 		Base64.Encoder enc = Base64.getEncoder();
-		return enc.encodeToString(salt) + "§" + hash;
+		return enc.encodeToString(salt) + C.SEPERATOR + hash;
 	}
 
 	
 	private static String[] separateHashAndSalt(String hashAndSalt) {
-		return hashAndSalt.split("\\§");
+		return hashAndSalt.split(C.HASH_REG_EXPR);
 	}
 	
 	public static boolean passwordCheck(String password, String stored) throws Exception{

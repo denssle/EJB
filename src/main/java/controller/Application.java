@@ -6,16 +6,16 @@ import org.springframework.boot.autoconfigure.*;
 import org.springframework.boot.web.servlet.ServletRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.web.bind.annotation.*;
-
+import constants.C;
 import dbc.UserDBC;
 
 @RestController
 @EnableAutoConfiguration
 public class Application {
 	
-	@RequestMapping(value="/login",  method = RequestMethod.POST)
-	String login(@RequestParam(name ="username", defaultValue="def_username", required=true) String username,
-	@RequestParam(name ="password", required=true) String password) {
+	@RequestMapping(value=C.PATH_ENTER,  method = RequestMethod.POST, params = { C.LOGIN })
+	String login(@RequestParam(name =C.USERNAME, defaultValue="def_username", required=true) String username,
+	@RequestParam(name =C.PASSWORD, required=true) String password) {
 		System.out.println("login: user: " + username + " password: " + password);
 		if(UserDBC.isNameAndPassCorrect(username, password)) {
 			return "welcome user: " + username;
@@ -24,9 +24,9 @@ public class Application {
 		}
 	}
 	
-	@RequestMapping(value="/register",  method = RequestMethod.POST)
-	public String register(@RequestParam(name ="username") String username,
-	@RequestParam(name ="password") String password) {
+	@RequestMapping(value=C.PATH_ENTER,  method = RequestMethod.POST, params = { C.REGISTER })
+	public String register(@RequestParam(name =C.USERNAME) String username,
+	@RequestParam(name =C.PASSWORD) String password) {
 		System.out.println("reg: user: " + username + " password: " + password);
 		if(UserDBC.findUserByName(username) == null) {
 			UserDBC.createUser(username, password);
@@ -40,7 +40,7 @@ public class Application {
 	@Bean
 	public ServletRegistrationBean h2servletRegistration() {
 	    ServletRegistrationBean registration = new ServletRegistrationBean(new WebServlet());
-	    registration.addUrlMappings("/console/*");
+	    registration.addUrlMappings(C.PATH_CONSOLE);
 	    return registration;
 	}
 	
