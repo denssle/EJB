@@ -53,3 +53,4 @@ target/*
 src/org/*
 src/main/org/*
 src/main/java/org/*
+/target/
