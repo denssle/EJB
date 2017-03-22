@@ -111,17 +111,17 @@ public class UserDBC {
 		return null;
 	}
 	
-	public static boolean isNameAndPassCorrect(String name, String pw) {
+	public static User isNameAndPassCorrect(String name, String pw) {
 		for(User user : users) {
 			try {
 				if(user.getName().equals(name) && PasswordHash.passwordCheck(pw, user.getPassword())) {
-					return true;
+					return user;
 				}
 			} catch (Exception e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		}
-		return false;
+		return null;
 	}
 }

@@ -1,16 +1,20 @@
 <!DOCTYPE HTML>
-<html>
+<html ng-app="EnterpriseJavaBasics">
 <head>
     <title>EJB</title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <script src="/angular/angular.js"></script>
+    <script src="/angular/angular-route.js"></script>
+    <script src="/js/app.module.js"></script>
+    <script src="/js/app.config.js"></script>
+    
+    <script src="/js/login/login.module.js"></script>
+    <script src="/js/login/login.component.js"></script>
+    
+    <script src="/js/lauchpad/lauchpad.module.js"></script>
+    <script src="/js/lauchpad/lauchpad.component.js"></script>
 </head>
 <body>
-    <form  action="/enter" method="post">
-	  User: <input type="text" name="username"><br>
-	  Pass: <input type="password" name="password"><br>
-	  <input type="submit" value="Login" name="login">
-	  <input type="submit" value="Register" name="register">
-	</form>
-	<br>
+	<div ng-view></div>
 </body>
 </html>
