@@ -3,6 +3,7 @@
 	border-left: solid black;
     padding-left: 1%;
     padding-bottom: 1%;
+    font-family: sans-serif;
 }
 
 #headline_form{
@@ -25,6 +26,7 @@
 
 #lauchpad_body {
 	margin-top: 5%;
+	font-family: sans-serif;
 }
 
 #app_entry {
@@ -52,4 +54,5 @@
 	border-left: solid black;
     padding-left: 1%;
     margin-top: 5%;
+    font-family: sans-serif;
 }

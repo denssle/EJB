@@ -64,7 +64,7 @@ public class PasswordHash {
 	public static boolean checkToken(String username, String hashedPassword, String token) throws NoSuchAlgorithmException, InvalidKeySpecException {
 		String hash = createToken(username, hashedPassword);
 		String updated = token+"==";
-		System.out.println("check token: "+ updated + " VS " + hash + " " + token.equals(updated));
+		System.out.println("check token: "+ updated + " VS " + hash + " " + updated.equals(hash));
 		if(updated.equals(hash)) {
 			return true;
 		}
