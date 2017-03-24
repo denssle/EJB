@@ -53,4 +53,21 @@ public class PasswordHash {
 	    }
 	    return false;
 	}
+	
+	public static String createToken(String username, String hashedPassword) throws NoSuchAlgorithmException, InvalidKeySpecException {
+		String[] saltAndPass = separateHashAndSalt(hashedPassword);
+		Base64.Decoder dec = Base64.getDecoder();
+	    byte[] salt = dec.decode(saltAndPass[0]);
+	    return getHash(username, salt);
+	}
+	
+	public static boolean checkToken(String username, String hashedPassword, String token) throws NoSuchAlgorithmException, InvalidKeySpecException {
+		String hash = createToken(username, hashedPassword);
+		String updated = token+"==";
+		System.out.println("check token: "+ updated + " VS " + hash + " " + token.equals(updated));
+		if(updated.equals(hash)) {
+			return true;
+		}
+		return false;
+	}
 }

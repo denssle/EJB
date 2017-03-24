@@ -1,4 +1,7 @@
-<p> Hello Launchpad </p>
-<form action="/logout" method="post">
-	<input type="submit" value="Sign Out"/>
-</form>
+
+<div>
+	<form action="/logout" method="post">
+		<input type="submit" value={{$ctrl.button_label}} />
+	</form>
+	<p>{{$ctrl.msg}}</p>
+</div>
