@@ -2,6 +2,11 @@
 #lauchpad_headline {
 	border-left: solid black;
     padding-left: 1%;
+    padding-bottom: 1%;
+}
+
+#headline_form{
+	display: inline-block;
 }
 
 .lauchpad_button {
@@ -13,12 +18,13 @@
 	background-color: lightgrey;
 }
 
-#lauchpad_msg {
+#headline_msg {
 	padding-top: 1%;
+	display: inline-block;
 }
 
 #lauchpad_body {
-	margin-top: 2%;
+	margin-top: 5%;
 }
 
 #app_entry {
@@ -28,9 +34,22 @@
 }
 
 #app_name {
-	
+	display: inline-block;
+	min-width: 80px;
 }
 
 #app_description {
 	font-style: italic;
+	display: inline-block;
+}
+
+#app_form {
+	display: inline-block;
+	margin-right: 1%;
+}
+
+#bottom_line{
+	border-left: solid black;
+    padding-left: 1%;
+    margin-top: 5%;
 }
