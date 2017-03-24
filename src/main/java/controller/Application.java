@@ -2,6 +2,7 @@ package controller;
 
 import java.security.NoSuchAlgorithmException;
 import java.security.spec.InvalidKeySpecException;
+import java.util.ArrayList;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletResponse;
@@ -14,6 +15,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.context.request.WebRequest;
 
+import bean.App;
 import bean.User;
 import constants.C;
 import dbc.PasswordHash;
@@ -68,20 +70,22 @@ public class Application {
 	}
 	
 	@RequestMapping(value="/auth", method = RequestMethod.POST)
-	public User auth(HttpServletResponse httpResponse, WebRequest request) {
+	public ArrayList<App> auth(HttpServletResponse httpResponse, WebRequest request) {
 		String token = request.getHeader("token");
 		String username = request.getHeader("username");
 		System.out.println("auth: " +username + " / " + token);
 		User user = UserDBC.findUserByName(username);
 		try {
 			if(user != null && PasswordHash.checkToken(user.getName(), user.getPassword(), token)) {
-				return user;
+				return generateApps();
 			} else {
+				httpResponse.setStatus(401);
 				return null;
 			}
 		} catch (NoSuchAlgorithmException | InvalidKeySpecException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
+			httpResponse.setStatus(500);
 			return null;
 		}
 	}
@@ -96,11 +100,24 @@ public class Application {
 	
 	private void addToken(HttpServletResponse httpResponse, User user) {
 		try {
-			httpResponse.addCookie(new Cookie("token", PasswordHash.createToken(user.getName(), user.getPassword())));
+			Cookie cookie = new Cookie("token", PasswordHash.createToken(user.getName(), user.getPassword()));
+			cookie.setMaxAge(5*24*60*60*1000);
+			httpResponse.addCookie(cookie);
 		} catch (NoSuchAlgorithmException | InvalidKeySpecException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+	}
+	
+	private ArrayList<App> generateApps() {
+		ArrayList<App> applist = new ArrayList<>();
+		applist.add(new App(1, "BoostSyle", "Booost your style!"));
+		applist.add(new App(2, "BASVU", "We have the BASS!"));
+		applist.add(new App(3, "collabloud", "Work better,  together"));
+		applist.add(new App(4, "PopLUXE", "Hear LUXE now"));
+		applist.add(new App(5, "urbanela", "Urban Fashion Shop"));
+		applist.add(new App(6, "Roqer", "The new roger, roger!"));
+		return applist;
 	}
 	
 	public static void main(String[] args) {

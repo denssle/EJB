@@ -1,0 +1,47 @@
+#login_form {
+	margin-left: 4%;
+    margin-top: 2%;
+    border-left: solid black;
+    padding-left: 1%;
+}
+
+#login_username_div {
+    margin-bottom: 1%;	
+}
+
+#login_password_div{
+	margin-bottom: 2%;
+}
+
+#login_button {
+    background-color: white;
+    border: solid black;
+}
+
+#register_button {
+    background-color: white;
+    border: solid black;
+}
+
+#login_button:hover {
+	background-color: lightgrey;
+}
+
+#register_button:hover {
+	background-color: lightgrey;
+}
+
+#login_username_input {
+	border-color: black;
+    border-width: medium;
+}
+
+#login_password_input {
+	border-color: black;
+    border-width: medium;
+}
+
+ label {
+   	min-width: 70px;
+    display: inline-block;
+ }

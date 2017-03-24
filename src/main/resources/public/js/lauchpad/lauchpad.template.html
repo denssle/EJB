@@ -1,7 +1,18 @@
-
-<div>
-	<form action="/logout" method="post">
-		<input type="submit" value={{$ctrl.button_label}} />
-	</form>
-	<p>{{$ctrl.msg}}</p>
+<link rel="stylesheet" href="lauchpad.css" />
+<div id="lauchpad_div">
+	<div id="lauchpad_headline">
+		<form action="/logout" method="post">
+			<input type="submit" value={{$ctrl.button_label}} class="lauchpad_button"/>
+		</form>
+		<div id="lauchpad_msg">{{$ctrl.msg}}</div>
+	</div>
+	<div id="lauchpad_body">
+		<div ng-repeat="app in $ctrl.response" id="app_entry">
+		<div id="app_name">{{app.name}}</div>
+		<div id="app_description">{{app.description}}</div>
+		<form >
+			<input type="submit" value=" > " class="lauchpad_button"/>
+		</form>
+	    </div>
+	</div>
 </div>

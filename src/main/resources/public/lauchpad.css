@@ -1,0 +1,36 @@
+
+#lauchpad_headline {
+	border-left: solid black;
+    padding-left: 1%;
+}
+
+.lauchpad_button {
+	background-color: white;
+    border: solid black;
+}
+
+.lauchpad_button:hover {
+	background-color: lightgrey;
+}
+
+#lauchpad_msg {
+	padding-top: 1%;
+}
+
+#lauchpad_body {
+	margin-top: 2%;
+}
+
+#app_entry {
+	border-left: solid black;
+    padding-left: 1%;
+    margin-bottom: 1%;
+}
+
+#app_name {
+	
+}
+
+#app_description {
+	font-style: italic;
+}

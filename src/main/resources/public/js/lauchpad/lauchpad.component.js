@@ -13,17 +13,17 @@ angular.
 				
 				request.onreadystatechange = getResponse;
 				request.open('POST', '/auth', true);
-				request.setRequestHeader("TOKEN", getToken());
-				request.setRequestHeader("username", localStorage.getItem("username"));
+				request.setRequestHeader("token", getToken("token"));
+				request.setRequestHeader("username", getToken("username"));
 				request.send();
-				
 				
 				function getResponse() {
 					if (request.readyState === XMLHttpRequest.DONE) {
 						if (request.status === 200) {
-							console.log("response text: " + request.responseText, self);
-							self.msg = "COOL " + request.responseText;
+							self.msg = "Hello " + getToken("username") + ".";
 							self.button_label = "Logout";
+							self.response = JSON.parse(request.responseText);
+							console.log("response text: ", self.response);
 							scope.$apply();
 						} else {
 							console.log('There was a problem with the request.');
@@ -34,16 +34,20 @@ angular.
 					}
 				}
 				
-				function getToken() {
+				function getToken(cookie_name) {
 					var read_cookies = document.cookie;
 					var split_read_cookie = read_cookies.split(";");
 					for (i=0;i<split_read_cookie.length;i++){
 						var value=split_read_cookie[i];
 						value=value.split("=");
-						if(value[0]=="token"){
+						var str = value[0].replace(/\s+/g, '');
+						console.log(cookie_name, " VS ", str, str===cookie_name,cookie_name.length, " VS ", str.length);
+						if(str===cookie_name){
+							console.log("for "+cookie_name+" token found", value[1], split_read_cookie.length);
 							return value[1];
 						}
 					}
+					console.warn("for "+cookie_name+" NO token found");
 				}
 				
 			}

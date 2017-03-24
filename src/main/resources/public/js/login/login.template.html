@@ -1,6 +1,14 @@
-<form action="/enter" method="post">
-	User: <input type="text" name="username" ng-model="username"><br>
-	Pass: <input type="password" name="password"><br>
-	<input type="submit" value="Login" name="login" ng-click="update()">
-	<input type="submit" value="Register" name="register">
+<form action="/enter" method="post" id="login_form">
+	<div id="login_username_div">
+		<label for="username" class="login_label">Name:</label>
+		<input type="text" name="username" ng-model="username" id="login_username_input">
+	</div>
+	<div id="login_password_div">
+		<label for="password" class="login_label">Password:</label>
+		<input type="password" name="password"  id="login_password_input">
+	</div>
+	<div id="login_buttons_div">
+		<input type="submit" value="Login" name="login" ng-click="update()" id="login_button">
+		<input type="submit" value="Register" name="register" id="register_button">
+	</div>
 </form>
