@@ -50,6 +50,16 @@ angular.
 					console.warn("for "+cookie_name+" NO token found");
 				}
 				
+				$scope.openApp = function(id) {
+					console.log("openApp", id);
+					request = new XMLHttpRequest();
+					request.open('POST', '/openapp', true); //Synchronous XMLHttpRequest on the main thread is deprecated
+					request.setRequestHeader("token", getToken("token"));
+					request.setRequestHeader("username", getToken("username"));
+					request.setRequestHeader("id", id);
+					request.send();
+				}
+				
 			}
 		]
 	}

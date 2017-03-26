@@ -74,20 +74,30 @@ public class Application {
 		String token = request.getHeader("token");
 		String username = request.getHeader("username");
 		System.out.println("auth: " +username + " / " + token);
-		User user = UserDBC.findUserByName(username);
-		try {
-			if(user != null && PasswordHash.checkToken(user.getName(), user.getPassword(), token)) {
-				return generateApps();
-			} else {
-				httpResponse.setStatus(401);
-				return null;
-			}
-		} catch (NoSuchAlgorithmException | InvalidKeySpecException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-			httpResponse.setStatus(500);
+		if(authentificateUser(username, token)) {
+			return generateApps();
+		} else {
+			httpResponse.setStatus(401);
 			return null;
 		}
+	}
+	
+	@RequestMapping(value="/openapp", method = RequestMethod.POST)
+	public void openApp(HttpServletResponse httpResponse, WebRequest request) {
+		String id = request.getHeader("id");
+		String token = request.getHeader("token");
+		String username = request.getHeader("username");
+		
+		if(authentificateUser(username, token)) {
+			System.out.println("open app "+ id + " auth: ok");
+		} else {
+			System.out.println("open app "+ id + " auth: NOT ok");
+		}
+		/*
+		httpResponse.setStatus(303);
+		httpResponse.setHeader(C.LOCATION, C.PATH_ANGULAR_INDEX);
+		httpResponse.addCookie(new Cookie("token", "token"));
+		*/
 	}
 	
 	// for the h2 database console
@@ -96,6 +106,21 @@ public class Application {
 	    ServletRegistrationBean registration = new ServletRegistrationBean(new WebServlet());
 	    registration.addUrlMappings(C.PATH_CONSOLE);
 	    return registration;
+	}
+	
+	private boolean authentificateUser(String username, String token) {
+		User user = UserDBC.findUserByName(username);
+		try {
+			if(user != null && PasswordHash.checkToken(user.getName(), user.getPassword(), token)) {
+				return true;
+			} else {
+				return false;
+			}
+		} catch (NoSuchAlgorithmException | InvalidKeySpecException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return false;
+		}
 	}
 	
 	private void addToken(HttpServletResponse httpResponse, User user) {

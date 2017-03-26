@@ -9,7 +9,7 @@
 	<div id="lauchpad_body">
 		<div ng-repeat="app in $ctrl.response" id="app_entry">
 			<form id="app_form">
-				<input type="submit" value=" > " class="lauchpad_button"/>
+				<input type="submit" value=" > " class="lauchpad_button" ng-click="openApp(app.id)" />
 			</form>
 			<div id="app_name">{{app.name}}</div>
 			<div id="app_description">{{app.description}}</div>
