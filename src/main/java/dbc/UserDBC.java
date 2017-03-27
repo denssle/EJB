@@ -23,7 +23,7 @@ public class UserDBC {
 		updateUserList();
 	}
 	
-	public static void updateUserList() {
+	private static void updateUserList() {
 		users.clear();
 		try{
 			Result<Record> result = create.select().from(USERS).fetch();

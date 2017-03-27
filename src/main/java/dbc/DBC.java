@@ -18,6 +18,7 @@ public class DBC {
 			connection = DriverManager.getConnection(url, user, pw);
 			DSLContext create = DSL.using(connection, SQLDialect.H2);
 			UserDBC.initUserDBC(create);
+			AppDBC.initAppDBC(create);
 		} catch (ClassNotFoundException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
