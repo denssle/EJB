@@ -4,46 +4,23 @@ import static org.jooq.h2.generated.Tables.USERS;
 
 import java.security.NoSuchAlgorithmException;
 import java.security.spec.InvalidKeySpecException;
-import java.sql.*;
 import java.util.ArrayList;
 
-import org.jooq.*;
+import org.jooq.DSLContext;
+import org.jooq.Record;
+import org.jooq.Result;
 import org.jooq.exception.DataAccessException;
-import org.jooq.impl.*;
 
 import bean.User;
-import constants.C;
 
 public class UserDBC {
-	private static Connection connection;
-	private static DSLContext create;
 	private static ArrayList<User> users; 
+	private static DSLContext create;
 	
-    public static void connect() {    	
-    	try {
-			Class.forName(C.DB_DRIVER);
-			String url = C.DB_URL;
-			String user = C.DB_USER;
-			String pw = C.DB_PASSWORD;
-			connection = DriverManager.getConnection(url, user, pw);
-			create = DSL.using(connection, SQLDialect.H2);
-			users = new ArrayList<>();
-		} catch (ClassNotFoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-    }
-    
-    public static void close() {
-    	try {
-			connection.close();
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+	protected static void initUserDBC(DSLContext context) {
+		create = context;
+		users = new ArrayList<>();
+		updateUserList();
 	}
 	
 	public static void updateUserList() {

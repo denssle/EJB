@@ -20,6 +20,7 @@ import bean.User;
 import constants.C;
 import dbc.PasswordHash;
 import dbc.UserDBC;
+import dbc.DBC;
 
 @RestController
 @EnableAutoConfiguration
@@ -75,7 +76,7 @@ public class Application {
 		String username = request.getHeader("username");
 		System.out.println("auth: " +username + " / " + token);
 		if(authentificateUser(username, token)) {
-			return generateApps();
+			return null;
 		} else {
 			httpResponse.setStatus(401);
 			return null;
@@ -134,20 +135,8 @@ public class Application {
 		}
 	}
 	
-	private ArrayList<App> generateApps() {
-		ArrayList<App> applist = new ArrayList<>();
-		applist.add(new App(1, "BoostSyle", "Booost your style!"));
-		applist.add(new App(2, "BASVU", "We have the BASS!"));
-		applist.add(new App(3, "collabloud", "Work better,  together"));
-		applist.add(new App(4, "PopLUXE", "Hear LUXE now"));
-		applist.add(new App(5, "urbanela", "Urban Fashion Shop"));
-		applist.add(new App(6, "Roqer", "The new roger, roger!"));
-		return applist;
-	}
-	
 	public static void main(String[] args) {
-		UserDBC.connect();
-		UserDBC.updateUserList();
+		DBC.connect();
 		// UserDBC.close();
 		SpringApplication.run(Application.class, args);
 	}

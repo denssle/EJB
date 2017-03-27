@@ -7,18 +7,19 @@
    http://www.liquibase.org/xml/ns/dbchangelog 
    http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.4.xsd">
      
-    <changeSet id="increase" author="den">
-    <createTable tableName="users">
-      <column name="id" type="int">
-        <constraints primaryKey="true" nullable="false" />
-      </column>
-      <column name="name" type="varchar(100)">
-        <constraints nullable="false" />
-      </column>
-      <column name="password" type="varchar(255)">
-        <constraints nullable="false" />
-      </column>
-    </createTable>
+	
+	<changeSet id="createTableUsersAgain" author="den">
+		<createTable tableName="users">
+			<column name="id" type="int">
+				<constraints primaryKey="true" nullable="false" />
+			</column>
+			<column name="name" type="varchar(255)">
+			<constraints nullable="false" />
+			</column>
+			<column name="password" type="varchar(255)">
+				<constraints nullable="false" />
+			</column>
+		</createTable>
   </changeSet>
      
 </databaseChangeLog>

@@ -6,7 +6,7 @@ import java.security.NoSuchAlgorithmException;
 import java.security.spec.InvalidKeySpecException;
 
 import org.junit.Test;
-import dbc.UserDBC;
+import dbc.DBC;
 import dbc.PasswordHash;
 
 public class EJBTest {
