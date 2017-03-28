@@ -6,7 +6,7 @@
     font-family: sans-serif;
 }
 
-#headline_form{
+#headline_logout{
 	display: inline-block;
 }
 
@@ -27,27 +27,34 @@
 #lauchpad_body {
 	margin-top: 5%;
 	font-family: sans-serif;
+	border-left: solid black;
+    padding-left: 1%;
 }
 
 #app_entry {
-	border-left: solid black;
-    padding-left: 1%;
-    margin-bottom: 1%;
+	width: 15vw;
+    height: 15vw;
+    border: solid black;
+    position:relative;
+    margin: 1%;
+    display: inline-flex;
+}
+
+#app_entry:hover {
+	background-color: lightgrey;
 }
 
 #app_name {
-	display: inline-block;
-	min-width: 80px;
+	font-size: larger;
+    padding: 5%;
 }
 
 #app_description {
-	font-style: italic;
-	display: inline-block;
-}
-
-#app_form {
-	display: inline-block;
-	margin-right: 1%;
+	font-size: medium;
+    font-style: italic;
+    position: absolute;
+    bottom: 0;
+    padding: 2%;
 }
 
 #bottom_line{
