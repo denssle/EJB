@@ -11,13 +11,13 @@ angular.
 				self.msg = "";
 				self.button_label = "Back to login";
 				
-				request.onreadystatechange = getResponse;
+				request.onreadystatechange = createAppList;
 				request.open('POST', '/auth', true);
 				request.setRequestHeader("token", getToken("token"));
 				request.setRequestHeader("username", getToken("username"));
 				request.send();
 				
-				function getResponse() {
+				function createAppList() {
 					if (request.readyState === XMLHttpRequest.DONE) {
 						if (request.status === 200) {
 							self.msg = "Hello " + getToken("username") + ".";
@@ -50,14 +50,31 @@ angular.
 					console.warn("for "+cookie_name+" NO token found");
 				}
 				
+				function getApp(id) {
+					for(var i=0; i<self.response.length; i++) {
+						var app = self.response[i];
+						if(app.id === id) {
+							return app;
+						}
+					}
+				}
+ 				
 				$scope.openApp = function(id) {
 					console.log("openApp", id);
-					request = new XMLHttpRequest();
-					request.open('POST', '/openapp', true); //Synchronous XMLHttpRequest on the main thread is deprecated
-					request.setRequestHeader("token", getToken("token"));
-					request.setRequestHeader("username", getToken("username"));
-					request.setRequestHeader("id", id);
-					request.send();
+					var app = getApp(id);
+					if (app !== undefined) {
+						window.location = app.url;
+						/*
+							var request = new XMLHttpRequest();
+							request.open('GET', app.url, true); //Synchronous XMLHttpRequest on the main thread is deprecated
+							request.setRequestHeader("token", getToken("token"));
+							request.setRequestHeader("username", getToken("username"));
+							request.setRequestHeader("id", id);
+							request.send();
+						 */
+					} else {
+						console.warn("no app found");
+					}
 				}
 				
 			}
