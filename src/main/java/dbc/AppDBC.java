@@ -37,8 +37,8 @@ public class AppDBC {
 	}
 	
 	private static void addSystemApps() {
-		apps.add(new App(generateID(), "+", "Create a new app", "/#!/create_app"));
-		apps.add(new App(generateID(), "Select Apps", "Choose the apps you want on your launchpad", "/#!/select_apps"));
+		apps.add(new App(generateID(), "+", "Create a new app", "/#!/createapp"));
+		apps.add(new App(generateID(), "Select Apps", "Choose the apps you want on your launchpad", "/#!/selectapps"));
 	}
 	
 	public static ArrayList<App> getApps() {

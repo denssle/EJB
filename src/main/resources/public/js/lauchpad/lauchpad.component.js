@@ -41,7 +41,6 @@ angular.
 						var value=split_read_cookie[i];
 						value=value.split("=");
 						var str = value[0].replace(/\s+/g, '');
-						console.log(cookie_name, " VS ", str, str===cookie_name,cookie_name.length, " VS ", str.length);
 						if(str===cookie_name){
 							console.log("for "+cookie_name+" token found", value[1], split_read_cookie.length);
 							return value[1];
@@ -81,3 +80,4 @@ angular.
 		]
 	}
 );
+

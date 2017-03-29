@@ -1,1 +1,1 @@
-angular.module('EnterpriseJavaBasics', ['ngRoute', 'login', 'lauchpad', 'create_app', 'select_apps']);
+angular.module('EnterpriseJavaBasics', ['ngRoute', 'createapp', 'selectapps', 'login', 'lauchpad']);
