@@ -59,18 +59,10 @@ angular.
 				}
  				
 				$scope.openApp = function(id) {
-					console.log("openApp", id);
 					var app = getApp(id);
+					console.log("openApp", id, app);
 					if (app !== undefined) {
 						window.location = app.url;
-						/*
-							var request = new XMLHttpRequest();
-							request.open('GET', app.url, true); //Synchronous XMLHttpRequest on the main thread is deprecated
-							request.setRequestHeader("token", getToken("token"));
-							request.setRequestHeader("username", getToken("username"));
-							request.setRequestHeader("id", id);
-							request.send();
-						 */
 					} else {
 						console.warn("no app found");
 					}

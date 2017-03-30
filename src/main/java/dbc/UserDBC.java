@@ -39,7 +39,7 @@ public class UserDBC {
 	}
 	
 	private static int generateID() {
-		return users.size() + 1;
+		return users.get(users.size()-1).getId() + 1;
 	}
 	
 	public static void createUser(String name, String pw) {

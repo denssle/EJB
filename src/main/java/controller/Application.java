@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.context.request.WebRequest;
 
 import bean.App;
+import bean.Template;
 import bean.User;
 import constants.C;
 import dbc.PasswordHash;
@@ -75,6 +76,35 @@ public class Application {
 		} else {
 			httpResponse.setStatus(401);
 			return null;
+		}
+	}
+	
+	@RequestMapping(value="/getTemplates", method = RequestMethod.POST)
+	public ArrayList<Template> getTemplats(HttpServletResponse httpResponse, WebRequest request) {
+		String token = request.getHeader("token");
+		String username = request.getHeader("username");
+		System.out.println("auth: " +username + " / " + token);
+		if(authentificateUser(username, token)) {
+			return AppDBC.getTemplates();
+		} else {
+			httpResponse.setStatus(401);
+			return null;
+		}
+	}
+	
+	@RequestMapping(value="/createapp", method = RequestMethod.POST)
+	public void createApp(HttpServletResponse httpResponse, WebRequest request) {
+		String token = request.getHeader("token");
+		String username = request.getHeader("username");
+		System.out.println("createapp: " +request);
+		if(authentificateUser(username, token)) {
+			String app_name = request.getHeader("app_name");
+			String app_url = request.getHeader("app_url");
+			String app_description = request.getHeader("app_description");
+			Integer app_template_id = Integer.parseInt(request.getHeader("app_template_id"));
+			System.out.println(app_name+" "+app_url+" "+app_description+" "+app_template_id);
+			AppDBC.createApp(app_name, app_description, app_url, app_template_id);
+			redirectToLauchpad(httpResponse, UserDBC.findUserByName(username));
 		}
 	}
 	
