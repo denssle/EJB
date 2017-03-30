@@ -1,0 +1,36 @@
+<databaseChangeLog
+	xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+	xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog-ext
+	http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd 
+	http://www.liquibase.org/xml/ns/dbchangelog 
+	http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.4.xsd">
+	
+	<changeSet id="create_department" author="den">
+	<createTable tableName="apptemplates">
+    	<column name="id" type="int">
+    		<constraints primaryKey="true" nullable="false" />
+    	</column>
+    	<column name="name" type="varchar(255)">
+    		<constraints nullable="false" />
+    	</column>
+    </createTable>
+    </changeSet>
+	
+	<changeSet id="addAppsTempate" author="den">
+		<addColumn tableName="apps">
+			<column name="template" type="varchar(255)" />
+		</addColumn>
+	</changeSet>
+	
+	<changeSet id="add-fk-between-apps-and-templates" author="den">
+	<addForeignKeyConstraint constraintName="fk_app_template"
+		baseTableName="apps" baseColumnNames="template" referencedTableName="apptemplates"
+		referencedColumnNames="id" onDelete="CASCADE" onUpdate="CASCADE" />
+	</changeSet>
+	
+	<changeSet id="tag-1.5" author="den">
+    	<tagDatabase tag="1.5" />
+    </changeSet>
+</databaseChangeLog>
