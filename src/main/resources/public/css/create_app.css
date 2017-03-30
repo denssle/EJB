@@ -1,0 +1,48 @@
+.label_create_app {
+	min-width: 90px;
+    display: inline-block;
+}
+
+.input_create_app{
+	border-color: black;
+    border-width: medium;
+    min-width: 25vw;
+}
+
+#div_create_app{
+	margin-left: 1%;
+    margin-top: 2%;
+    border-left: solid black;
+    padding-left: 1%;
+}
+
+#textarea_app_description{
+	border-color: black;
+    border-width: medium;
+    min-width: 25vw;
+}
+
+.button_create_app{
+	background-color: white;
+    border: solid black;
+}
+
+.button_create_app:hover {
+	background-color: lightgrey;
+}
+
+#div_app_name {
+	padding-bottom: 1%;
+}
+
+#div_app_url{
+	padding-bottom: 1%;
+}
+
+#div_app_description{
+	padding-bottom: 1%;
+}
+
+#div_app_button{
+	padding-bottom: 1%;
+}
