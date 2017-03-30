@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<configuration xmlns="http://www.jooq.org/xsd/jooq-codegen-3.9.0.xsd">
+<configuration xmlns="http://www.jooq.org/xsd/jooq-codegen-3.8.4.xsd">
   <jdbc>
       <driver>org.h2.Driver</driver>
-      <url>jdbc:h2:~/test;mv_store=false</url>
+      <url>jdbc:h2:~/test</url>
       <user>sa</user>
       <password></password>
     </jdbc>
@@ -15,11 +15,13 @@
         	<includes>.*</includes>
         	<excludes></excludes>
         	<inputSchema>PUBLIC</inputSchema>
+        	<includeExcludeColumns>true</includeExcludeColumns>
       	</database>
 
     <target>
         <packageName>org.jooq.h2.generated</packageName>
         <directory>src/main/java</directory>
+        <encoding>UTF-8</encoding>
       </target>
   </generator>
 </configuration>
