@@ -1,4 +1,9 @@
 <link rel="stylesheet" href="/css/select_apps.css" />
+<div id="select_apps_headline">
+	<form action="/#!/lauchpad" id="select_apps_back">
+		<input type="submit" value="Back" id="select_apps_button"/>
+	</form>
+</div>
 <div id="div_selectapp_body">
 	<div ng-repeat="template in $ctrl.response" id="div_template_entry">
 		<div id="template_entry" ng-click="checkTemplate(template.id)">

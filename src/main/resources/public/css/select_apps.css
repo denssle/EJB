@@ -1,3 +1,23 @@
+#select_apps_headline {
+	border-left: solid black;
+    padding-left: 1%;
+    padding-bottom: 1%;
+    font-family: sans-serif;
+}
+
+#select_apps_back {
+	display: inline-block;
+}
+
+#select_apps_button {
+	background-color: white;
+    border: solid black;
+}
+
+#select_apps_button:hover {
+	background-color: lightgrey;
+}
+
 #div_selectapp_body {
 }
 
