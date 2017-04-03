@@ -3,12 +3,16 @@ package dbc;
 import static org.jooq.h2.generated.Tables.APPS;
 import static org.jooq.h2.generated.Tables.APPTEMPLATES;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
+
 import org.jooq.DSLContext;
 import org.jooq.Record;
 import org.jooq.Result;
 import org.jooq.exception.DataAccessException;
 import bean.App;
 import bean.Template;
+import ch.qos.logback.core.net.SyslogOutputStream;
 
 public class AppDBC {
 	private static ArrayList<App> apps; 
@@ -33,9 +37,11 @@ public class AppDBC {
 	            String description = r.getValue(APPS.DESCRIPTION);
 	            String burl = r.getValue(APPS.LINK);
 	            Integer template_id = r.getValue(APPS.TEMPLATE);
-	            apps.add(new App(id, name, description, burl, getTemplateForId(template_id)));
+	            Template template = getTemplateForId(template_id);
+	            App app = new App(id, name, description, burl, template_id);
+	            apps.add(app);
+	            template.addApp(app);
 	        }
-			addSystemApps();
 		} catch (DataAccessException e) {
 			// TODO: handle exception
 		}
@@ -64,14 +70,27 @@ public class AppDBC {
 		return null;
 	}
 	
-	private static void addSystemApps() {
-		Template systemTemplate = new Template(generateTemplateID(), "Systemapps");
-		apps.add(new App(generateAppID(), "+", "Create a new app", "/#!/createapp", systemTemplate));
-		apps.add(new App(generateAppID(), "Select Apps", "Choose the apps you want on your launchpad", "/#!/selectapps", systemTemplate));
+	public static App getApp(Integer id) {
+		for(App app : apps) {
+			if(id.equals(app.getId())) {
+				return app;
+			}
+		}
+		return null;
 	}
 	
-	public static ArrayList<App> getApps() {
-		return apps;
+	public static ArrayList<App> getApps(ArrayList<Integer> checkAppIds) {
+		ArrayList<App> result = new ArrayList<>();
+		for(Integer id : checkAppIds) {
+			App app = getApp(id);
+			if(app != null) {
+				app.check();
+				result.add(app);
+			}
+		}
+		result.add(new App(generateAppID(), "+", "Create a new app", "/#!/createapp", 0));
+		result.add(new App(generateAppID()+1, "Select Apps", "Choose the apps you want on your launchpad", "/#!/selectapps", 0));
+		return result;
 	}
 	
 	private static int generateAppID() {
@@ -91,7 +110,19 @@ public class AppDBC {
 		updateAppList();
 	}
 	
-	public static ArrayList<Template> getTemplates() {
+	public static ArrayList<Template> getTemplates(ArrayList<Integer> appIds) {
+		updateAppList();
+		System.out.println("get templates: "+ appIds);
+		for(Template template : templates) {
+			for(App app: template.getApps()) {
+				for(Integer checkedId : appIds) {
+					if(checkedId.equals(app.getId())) {
+						System.out.println("checked app: " + app.getName());
+						app.check();
+					}
+				}
+			}
+		}
 		return templates;
 	}
 }

@@ -29,7 +29,6 @@ angular.
 							console.log('There was a problem with the request.');
 							self.msg = "";
 							self.button_label = "Back to login";
-							scope.$apply();
 						}
 					}
 				}
@@ -56,12 +55,13 @@ angular.
 							return app;
 						}
 					}
+					return null;
 				}
  				
 				$scope.openApp = function(id) {
 					var app = getApp(id);
 					console.log("openApp", id, app);
-					if (app !== undefined) {
+					if (app !== null) {
 						window.location = app.url;
 					} else {
 						console.warn("no app found");

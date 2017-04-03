@@ -3,6 +3,7 @@ package controller;
 import java.security.NoSuchAlgorithmException;
 import java.security.spec.InvalidKeySpecException;
 import java.util.ArrayList;
+import java.util.Map;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletResponse;
@@ -72,7 +73,7 @@ public class Application {
 		String username = request.getHeader("username");
 		System.out.println("auth: " +username + " / " + token);
 		if(authentificateUser(username, token)) {
-			return AppDBC.getApps();
+			return AppDBC.getApps(UserDBC.findUserByName(username).getAppIds());
 		} else {
 			httpResponse.setStatus(401);
 			return null;
@@ -83,9 +84,9 @@ public class Application {
 	public ArrayList<Template> getTemplats(HttpServletResponse httpResponse, WebRequest request) {
 		String token = request.getHeader("token");
 		String username = request.getHeader("username");
-		System.out.println("auth: " +username + " / " + token);
+		System.out.println("getTemplates auth: " +username + " / " + token);
 		if(authentificateUser(username, token)) {
-			return AppDBC.getTemplates();
+			return AppDBC.getTemplates(UserDBC.findUserByName(username).getAppIds());
 		} else {
 			httpResponse.setStatus(401);
 			return null;
@@ -102,9 +103,24 @@ public class Application {
 			String app_url = request.getHeader("app_url");
 			String app_description = request.getHeader("app_description");
 			Integer app_template_id = Integer.parseInt(request.getHeader("app_template_id"));
-			System.out.println(app_name+" "+app_url+" "+app_description+" "+app_template_id);
+			System.out.println("createapp "+app_name+" "+app_url+" "+app_description+" "+app_template_id);
 			AppDBC.createApp(app_name, app_description, app_url, app_template_id);
 			redirectToLauchpad(httpResponse, UserDBC.findUserByName(username));
+		}
+	}
+	
+	@RequestMapping(value="/checkApp", method = RequestMethod.POST)
+	public ArrayList<Template> checkApp(HttpServletResponse httpResponse, WebRequest request) {
+		String token = request.getHeader("token");
+		String username = request.getHeader("username");
+		String appid = request.getHeader("appid");
+		System.out.println("checkApp auth: " +username + " / " + token);
+		if(authentificateUser(username, token)) {
+			UserDBC.updateUserAppList(username, appid);
+			return AppDBC.getTemplates(UserDBC.findUserByName(username).getAppIds());
+		} else {
+			httpResponse.setStatus(401);
+			return null;
 		}
 	}
 	

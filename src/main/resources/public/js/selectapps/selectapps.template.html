@@ -1,4 +1,12 @@
 <link rel="stylesheet" href="/css/select_apps.css" />
-<div>
-	<p>SELECT SOME APPS</p>
+<div id="div_selectapp_body">
+	<div ng-repeat="template in $ctrl.response" id="div_template_entry">
+		<div id="template_name">{{template.name}}</div>
+		<div ng-repeat="app in template.apps" id="app_entry" ng-click="checkApp(app.id)">
+			<div id="app_name">{{app.name}}</div>
+			<div id="app_checked" ng-if="app.checked"> ✘ </div>
+		    <div id="app_unchecked" ng-if="!app.checked"> ✔ </div>
+			<div id="app_description">{{app.description}}</div>
+		</div>
+	</div>
 </div>

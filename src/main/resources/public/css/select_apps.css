@@ -1,0 +1,47 @@
+#div_selectapp_body {
+}
+
+#div_template_entry{
+	margin-top: 5%;
+	border-left: solid black;
+    padding-left: 1%;
+}
+
+#template_name {
+	padding-left: 1%;
+}
+
+
+#app_entry {
+	width: 15vw;
+    height: 15vw;
+    border: solid black;
+    position:relative;
+    margin: 1%;
+    display: inline-flex;
+}
+
+#app_entry:hover {
+	background-color: lightgrey;
+}
+
+#app_name {
+	font-size: larger;
+    padding: 5%;
+}
+
+#app_checked {
+	
+}
+
+#app_unchecked{
+	
+}
+
+#app_description {
+	font-size: medium;
+    font-style: italic;
+    position: absolute;
+    bottom: 0;
+    padding: 2%;
+}

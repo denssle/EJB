@@ -31,7 +31,9 @@ public class UserDBC {
 				Integer id = r.getValue(USERS.ID);
 	            String name = r.getValue(USERS.NAME);
 	            String pw = r.getValue(USERS.PASSWORD);
-	            users.add(new User(id, name, pw));
+	            String token = r.getValue(USERS.TOKEN);
+	            String appIds = r.getValue(USERS.APPS);
+	            users.add(new User(id, name, pw, token, appIds));
 	        }
 		} catch (DataAccessException e) {
 			// TODO: handle exception
@@ -100,5 +102,24 @@ public class UserDBC {
 			}
 		}
 		return null;
+	}
+	
+	public static void updateUserAppList(String username, String appId) {
+		String result = "";
+		User user = findUserByName(username);
+		if(user.isAppChecked(Integer.parseInt(appId))) { // remove app
+			user.removeApp(Integer.parseInt(appId));
+		} else { // check app
+			user.addAppId(Integer.parseInt(appId));
+		}
+		for(Integer i : user.getAppIds()) {
+			result = result+i+",";
+		}
+		System.out.println("new applist: " + result);
+		create.update(USERS)
+	      .set(USERS.APPS, result)
+	      .where(USERS.ID.equal(user.getId()))
+	      .execute();
+		updateUserList();
 	}
 }
