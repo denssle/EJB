@@ -5,6 +5,7 @@ import static org.jooq.h2.generated.Tables.APPTEMPLATES;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Set;
 
 import org.jooq.DSLContext;
 import org.jooq.Record;
@@ -79,7 +80,16 @@ public class AppDBC {
 		return null;
 	}
 	
-	public static ArrayList<App> getApps(ArrayList<Integer> checkAppIds) {
+	public static Template getTemplate(Integer id) {
+		for(Template template : templates) {
+			if(id.equals(template.getId())) {
+				return template;
+			}
+		}
+		return null;
+	}
+	
+	public static ArrayList<App> getApps(Set<Integer> checkAppIds) {
 		ArrayList<App> result = new ArrayList<>();
 		for(Integer id : checkAppIds) {
 			App app = getApp(id);
@@ -110,7 +120,7 @@ public class AppDBC {
 		updateAppList();
 	}
 	
-	public static ArrayList<Template> getTemplates(ArrayList<Integer> appIds) {
+	public static ArrayList<Template> getTemplates(Set<Integer> appIds) {
 		updateAppList();
 		System.out.println("get templates: "+ appIds);
 		for(Template template : templates) {
@@ -122,6 +132,7 @@ public class AppDBC {
 					}
 				}
 			}
+			template.isChecked();
 		}
 		return templates;
 	}

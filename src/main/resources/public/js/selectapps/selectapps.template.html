@@ -1,7 +1,12 @@
 <link rel="stylesheet" href="/css/select_apps.css" />
 <div id="div_selectapp_body">
 	<div ng-repeat="template in $ctrl.response" id="div_template_entry">
-		<div id="template_name">{{template.name}}</div>
+		<div id="template_entry" ng-click="checkTemplate(template.id)">
+			<div id="template_name">{{template.name}}</div>
+			<div class="template_button" ng-if="template.checked"> ✘ </div>
+		    <div class="template_button" ng-if="!template.checked"> ✔ </div>
+		</div>
+	    <br>
 		<div ng-repeat="app in template.apps" id="app_entry" ng-click="checkApp(app.id)">
 			<div id="app_name">{{app.name}}</div>
 			<div id="app_checked" ng-if="app.checked"> ✘ </div>

@@ -11,6 +11,8 @@ import org.jooq.Record;
 import org.jooq.Result;
 import org.jooq.exception.DataAccessException;
 
+import bean.App;
+import bean.Template;
 import bean.User;
 
 public class UserDBC {
@@ -104,7 +106,7 @@ public class UserDBC {
 		return null;
 	}
 	
-	public static void updateUserAppList(String username, String appId) {
+	public static void checkApp(String username, String appId) {
 		String result = "";
 		User user = findUserByName(username);
 		if(user.isAppChecked(Integer.parseInt(appId))) { // remove app
@@ -115,10 +117,34 @@ public class UserDBC {
 		for(Integer i : user.getAppIds()) {
 			result = result+i+",";
 		}
+		updateUserAppList(user.getId(), result);
+	}
+	
+	public static void checkTemplate(String username, Template template) {
+		String result = "";
+		User user = findUserByName(username);
+		if(template.isChecked()) {
+			template.uncheck();
+			for(App app: template.getApps()) {
+				user.removeApp(app.getId());
+			}
+		} else {
+			template.check();
+			for(App app: template.getApps()) {
+				user.addAppId(app.getId());
+			}
+		}
+		for(Integer i : user.getAppIds()) {
+			result = result+i+",";
+		}
+		updateUserAppList(user.getId(), result);
+	}
+	
+	private static void updateUserAppList(Integer id, String result) {
 		System.out.println("new applist: " + result);
 		create.update(USERS)
 	      .set(USERS.APPS, result)
-	      .where(USERS.ID.equal(user.getId()))
+	      .where(USERS.ID.equal(id))
 	      .execute();
 		updateUserList();
 	}

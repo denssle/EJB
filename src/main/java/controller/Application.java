@@ -116,7 +116,22 @@ public class Application {
 		String appid = request.getHeader("appid");
 		System.out.println("checkApp auth: " +username + " / " + token);
 		if(authentificateUser(username, token)) {
-			UserDBC.updateUserAppList(username, appid);
+			UserDBC.checkApp(username, appid);
+			return AppDBC.getTemplates(UserDBC.findUserByName(username).getAppIds());
+		} else {
+			httpResponse.setStatus(401);
+			return null;
+		}
+	}
+	
+	@RequestMapping(value="/checkTemplate", method = RequestMethod.POST)
+	public ArrayList<Template> checkTemplate(HttpServletResponse httpResponse, WebRequest request) {
+		String token = request.getHeader("token");
+		String username = request.getHeader("username");
+		String templateId = request.getHeader("templateId");
+		System.out.println("checkTemplate auth: " +username + " / " + token);
+		if(authentificateUser(username, token)) {
+			UserDBC.checkTemplate(username, AppDBC.getTemplate(Integer.parseInt(templateId)));
 			return AppDBC.getTemplates(UserDBC.findUserByName(username).getAppIds());
 		} else {
 			httpResponse.setStatus(401);

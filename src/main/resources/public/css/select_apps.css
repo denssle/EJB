@@ -7,10 +7,24 @@
     padding-left: 1%;
 }
 
-#template_name {
-	padding-left: 1%;
+#template_entry {
+	border: solid black;
+	width: 15vw;
+	margin-left: 1%;
 }
 
+#template_name {
+	padding-left: 5%;
+	display: inline;
+}
+
+.template_button{
+	display: inline;
+}
+
+#template_entry:hover {
+	background-color: lightgrey;
+}
 
 #app_entry {
 	width: 15vw;

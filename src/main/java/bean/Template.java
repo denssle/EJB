@@ -25,20 +25,26 @@ public class Template {
 	
 	public void check() {
 		this.checked = true;
+		for(App app: apps) {
+			app.check();
+		}
 	}
 	
 	public void uncheck() {
 		this.checked = false;
+		for(App app: apps) {
+			app.uncheck();
+		}
 	}
 	
 	public boolean isChecked() {
-		boolean result = true;
+		this.checked = true;
 		for(App app:apps) {
 			if(!app.isChecked()) {
-				result = false;
+				this.checked = false;
 			}
 		}
-		return result;
+		return this.checked;
 	}
 	
 	public void addApp(App app) {

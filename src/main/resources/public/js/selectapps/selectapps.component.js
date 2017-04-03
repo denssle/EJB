@@ -78,6 +78,16 @@ angular.
 				}
 			}
 			
+			$scope.checkTemplate = function(id) {
+				console.log("check template", id);
+				if (!sending) {
+					sending = true;
+					sendRequest('/checkTemplate', "templateId", id);
+				} else {
+					console.warn("sending error", sending);
+				}
+			}
+			
 			sendRequest('/getTemplates');
 		}]
 	});
