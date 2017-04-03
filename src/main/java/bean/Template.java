@@ -38,13 +38,17 @@ public class Template {
 	}
 	
 	public boolean isChecked() {
-		this.checked = true;
-		for(App app:apps) {
-			if(!app.isChecked()) {
-				this.checked = false;
+		if(apps.isEmpty()) {
+			return this.checked;
+		} else {
+			this.checked = true;
+			for(App app:apps) {
+				if(!app.isChecked()) {
+					this.checked = false;
+				}
 			}
+			return this.checked;
 		}
-		return this.checked;
 	}
 	
 	public void addApp(App app) {
