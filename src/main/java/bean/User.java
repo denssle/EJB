@@ -1,10 +1,7 @@
 package bean;
 
-import java.util.ArrayList;
 import java.util.Set;
 import java.util.TreeSet;
-
-import constants.C;
 
 public class User {
 	private int id;
@@ -21,7 +18,11 @@ public class User {
         this.appIds = new TreeSet<Integer>();
         if(appIdsAsString != null && !appIdsAsString.equals("")) {
         	for (String str : appIdsAsString.split("\\,")) {
-            	this.appIds.add(Integer.parseInt(str));
+        		try {
+        			this.appIds.add(Integer.parseInt(str));
+        		} catch (NumberFormatException e) {
+					// TODO: handle exception
+				}
             }
         }
     }
