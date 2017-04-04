@@ -88,6 +88,14 @@
 
 <div id="id_modal_app_update" ng-style="modal_style_app_update" class="modal_wrapper">
 	<div class="modal_content">
-		<p>UPDATE APP</p>
+		<label for="app_name">Name:</label>
+		<input type="text" name="input_app_name" ng-model="updateAppVar.name"><br>
+		<label for="input_app_url" >URL:</label>
+		<input type="text" name="input_app_url" ng-model="updateAppVar.url"><br>
+		<label for="input_app_description">Description:</label>
+		<textarea name="input_app_description" ng-model="updateAppVar.description"></textarea><br>
+		<label for="select_app_template" >Template:</label>
+		<select ng-options="template.name for template in $ctrl.templates" ng-model="updateAppTemplate"></select><br>
+		<input type="submit" value="Update" ng-click="updateApp(updateAppVar.id)">
 	</div>
 </div>

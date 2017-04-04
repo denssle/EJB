@@ -241,6 +241,37 @@ public class Application {
 		}
 	}
 	
+	@RequestMapping(value="/updateApp", method = RequestMethod.POST)
+	public void updateApp(HttpServletResponse httpResponse, WebRequest request) {
+		String token = request.getHeader("token");
+		String username = request.getHeader("username");
+		System.out.println("updateApp auth: " +username + " / " + token);
+		if(authentificateUser(username, token)) {
+			Integer id = Integer.parseInt(request.getHeader("id"));
+			String name = request.getHeader("name");
+			String description = request.getHeader("description");
+			String url = request.getHeader("url");
+			Integer templateId = Integer.parseInt(request.getHeader("template"));
+			System.out.println("updateApp: " + id + " name " + name + " description " + description + " url " + url + " template " + templateId);
+			AppDBC.updateApp(id, name, description, url, templateId);
+		} else {
+			httpResponse.setStatus(401);
+		}
+	}
+	
+	@RequestMapping(value="/deleteApp", method = RequestMethod.POST)
+	public void deleteApp(HttpServletResponse httpResponse, WebRequest request) {
+		String token = request.getHeader("token");
+		String username = request.getHeader("username");
+		System.out.println("deleteApp auth: " +username + " / " + token);
+		if(authentificateUser(username, token)) {
+			String id = request.getHeader("id");
+			System.out.println("deleteApp: " +id);
+		} else {
+			httpResponse.setStatus(401);
+		}
+	}
+	
 	// for the h2 database console 
 	@Bean
 	public ServletRegistrationBean h2servletRegistration() {

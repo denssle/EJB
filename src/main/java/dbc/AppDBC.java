@@ -123,6 +123,17 @@ public class AppDBC {
 		updateAppList();
 	}
 	
+	public static void updateApp(int id, String name, String description, String url, int templateId) {
+		create.update(APPS)
+		  .set(APPS.NAME, name)
+		  .set(APPS.DESCRIPTION, description)
+		  .set(APPS.LINK, url)
+		  .set(APPS.TEMPLATE, templateId)
+		  .where(APPS.ID.equal(id))
+		  .execute();
+		updateAppList();
+	}
+	
 	public static ArrayList<Template> getTemplates(Set<Integer> appIds) {
 		updateAppList();
 		System.out.println("get templates: "+ appIds);
@@ -153,7 +164,7 @@ public class AppDBC {
 		  .set(APPTEMPLATES.NAME, new_name)
 		  .where(APPTEMPLATES.ID.equal(id))
 		  .execute();
-		
+		updateAppList();
 	}
 	
 	public static void deleteTemplate(int id) {

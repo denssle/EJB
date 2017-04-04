@@ -91,6 +91,19 @@ angular.
 				return null;
 			}
 			
+			function getApp(id) {
+				for(var i=0; i<self.templates.length; i++) {
+					var template = self.templates[i];
+					for(var j=0; j<template.apps.length; j++) {
+						var app = template.apps[j];
+						if(app.id === id) {
+							return app;
+						}
+					}
+				}
+				return null;
+			}
+			
 			// When the user clicks anywhere outside of the modal, close it
 			window.onclick = function(event) {
 			    if (event.target.className === "modal_wrapper") {
@@ -104,6 +117,12 @@ angular.
 			        }
 			        if($scope.updateTemplateVar) {
 			        	$scope.updateTemplateVar.name = $scope.updateTemplateVar.oldname;
+			        }
+			        if($scope.updateAppVar) {
+			        	$scope.updateAppVar.name = $scope.updateAppVar.oldapp.name;
+			        	$scope.updateAppVar.description = $scope.updateAppVar.oldapp.description;
+			        	$scope.updateAppVar.url = $scope.updateAppVar.oldapp.url;
+			        	$scope.updateAppVar.template = $scope.updateAppVar.oldapp.template;
 			        }
 			        saveApply();
 			    }
@@ -189,8 +208,37 @@ angular.
 			}
 			// APPS
 			$scope.openUpdateApp = function(id) {
-				console.log("openUpdateApp", id);
+				var app = getApp(id);
+				console.log("openUpdateApp");
 				$scope.modal_style_app_update = {"display" : "block"};
+				$scope.updateAppVar = app;
+				$scope.updateAppVar.oldapp = {};
+				for(var key in app) {
+					if(app.hasOwnProperty(key)) {
+						$scope.updateAppVar.oldapp[key] = app[key];
+					}
+				}
+				
+			}
+			$scope.updateApp = function(id) {
+				console.log("updateApp", id, $scope.updateAppTemplate, $scope.updateAppTemplate);
+				var app = $scope.updateAppVar;
+				$scope.modal_style_app_update = {"display" : "none"};
+				sendRequest('/updateApp', function(response){
+					var request = response.srcElement;
+					if (request.readyState === XMLHttpRequest.DONE) {
+						if (request.status === 200) {
+							sendRequest('/getTemplates', getTemplates);
+						}
+					}
+				}, {
+					id:id,
+					name: app.name,
+					description: app.description,
+					url: app.url,
+					template: $scope.updateAppTemplate.id
+					});
+				$scope.updateAppVar.oldname = $scope.updateAppVar.app;
 			}
 			$scope.deleteApp = function(id) {
 				console.log("deleteApp", id);

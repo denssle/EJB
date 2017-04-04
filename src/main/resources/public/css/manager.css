@@ -45,9 +45,7 @@
 }
 
 #div_template_entry {
-	padding-left: 1%;
     margin-bottom: 2%;
-    border-left: solid black;
     margin-top: 1%;
 }
 
@@ -63,6 +61,8 @@
 
 #app_entry {
 	padding-bottom: 1%;
+	border-left: solid black;
+    padding-left: 1%
 }
 
 #app_name {
