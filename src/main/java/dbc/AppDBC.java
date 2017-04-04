@@ -2,6 +2,8 @@ package dbc;
 
 import static org.jooq.h2.generated.Tables.APPS;
 import static org.jooq.h2.generated.Tables.APPTEMPLATES;
+import static org.jooq.h2.generated.Tables.USERS;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -136,5 +138,24 @@ public class AppDBC {
 			template.isChecked();
 		}
 		return templates;
+	}
+
+	public static void createTemplate(String new_template_name) {
+		create.insertInto(APPTEMPLATES, APPTEMPLATES.ID, APPTEMPLATES.NAME)
+		.values(generateTemplateID(), new_template_name)
+		.execute();
+		
+		updateAppList();
+	}
+	
+	public static void deleteTemplate(int id) {
+		create.delete(APPTEMPLATES)
+	      .where(APPTEMPLATES.ID.equal(id))
+	      .execute();
+		
+		create.delete(APPS)
+	      .where(APPS.TEMPLATE.equal(id))
+	      .execute();
+		updateAppList();
 	}
 }

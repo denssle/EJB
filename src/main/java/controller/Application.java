@@ -154,6 +154,21 @@ public class Application {
 		return null;
 	}
 	
+	@RequestMapping(value="/createUser", method = RequestMethod.POST)
+	public void createUser(HttpServletResponse httpResponse, WebRequest request) {
+		String token = request.getHeader("token");
+		String username = request.getHeader("username");
+		System.out.println("createUser auth: " +username + " / " + token);
+		if(authentificateUser(username, token)) {
+			String newUserName = request.getHeader("newUserName");
+			String newUserPassword = request.getHeader("newUserPassword");
+			System.out.println("createUser: " +newUserName + " / " + newUserPassword);
+			UserDBC.createUser(newUserName, newUserPassword);
+		} else {
+			httpResponse.setStatus(401);
+		}
+	}
+	
 	@RequestMapping(value="/updateUser", method = RequestMethod.POST)
 	public void updateUser(HttpServletResponse httpResponse, WebRequest request) {
 		String token = request.getHeader("token");
@@ -178,6 +193,34 @@ public class Application {
 			String id = request.getHeader("id");
 			System.out.println("deleteUser: " +id);
 			UserDBC.deleteUser(Integer.parseInt(id));
+		} else {
+			httpResponse.setStatus(401);
+		}
+	}
+	
+	@RequestMapping(value="/createTemplate", method = RequestMethod.POST)
+	public void createTemplate(HttpServletResponse httpResponse, WebRequest request) {
+		String token = request.getHeader("token");
+		String username = request.getHeader("username");
+		System.out.println("createTemplate auth: " +username + " / " + token);
+		if(authentificateUser(username, token)) {
+			String new_template_name = request.getHeader("new_template_name");
+			System.out.println("createTemplate: " +new_template_name);
+			AppDBC.createTemplate(new_template_name);
+		} else {
+			httpResponse.setStatus(401);
+		}
+	}
+	
+	@RequestMapping(value="/deleteTemplate", method = RequestMethod.POST)
+	public void deleteTemplate(HttpServletResponse httpResponse, WebRequest request) {
+		String token = request.getHeader("token");
+		String username = request.getHeader("username");
+		System.out.println("deleteTemplate auth: " +username + " / " + token);
+		if(authentificateUser(username, token)) {
+			String id = request.getHeader("id");
+			System.out.println("deleteTemplate: " +id);
+			AppDBC.deleteTemplate(Integer.parseInt(id));
 		} else {
 			httpResponse.setStatus(401);
 		}

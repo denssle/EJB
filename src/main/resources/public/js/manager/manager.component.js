@@ -4,8 +4,7 @@ angular.
 		templateUrl: '/js/manager/manager.template.html',
 		controller: ["$scope",
 			function managerController($scope) {
-			var self = this,
-			backup_user;
+			var self = this;
 			self.users=[];
 			self.tenplates = [];
 			
@@ -84,25 +83,45 @@ angular.
 			
 			// When the user clicks anywhere outside of the modal, close it
 			window.onclick = function(event) {
-			    if (event.target.id === "id_modal_user" || event.target.id === "id_modal_template" || event.target.id === "id_modal_app") {
-			        $scope.modal_style_user = {"display" : "none"};
-			        $scope.modal_style_template = {"display" : "none"};
-			        $scope.modal_style_app = {"display" : "none"};
+			    if (event.target.className === "modal_wrapper") {
+			        $scope.modal_style_user_create = {"display" : "none"};
+			        $scope.modal_style_user_update = {"display" : "none"};
+			        $scope.modal_style_template_create = {"display" : "none"};
+			        $scope.modal_style_template_update = {"display" : "none"};
+			        $scope.modal_style_app_update = {"display" : "none"};
 			        console.log($scope.user);
-			        $scope.user.name = $scope.user.oldname;
+			        if($scope.user) {
+			        	$scope.user.name = $scope.user.oldname;
+			        }
 			        saveApply();
 			    }
 			}
 			
+			$scope.openCreateUser = function(id) {
+				console.log("openCreateUser", id);
+				$scope.modal_style_user_create = {"display" : "block"};
+			}
+			$scope.createUser = function() {
+				console.log("createUser", $scope.createUserName, $scope.createUserPassword);
+				$scope.modal_style_user_create = {"display" : "none"};
+				sendRequest('/createUser', function(response){
+					var request = response.srcElement;
+					if (request.readyState === XMLHttpRequest.DONE) {
+						if (request.status === 200) {
+							sendRequest('/getUsers', getUsers);
+						}
+					}
+				}, {newUserName:$scope.createUserName, newUserPassword:$scope.createUserPassword});
+			}
 			$scope.openUpdateUser = function(id) {
 				var user = getUser(id)
 				console.log("openUpdateUser", id, user);
-				$scope.modal_style_user = {"display" : "block"};
+				$scope.modal_style_user_update = {"display" : "block"};
 				$scope.user = user;
 				$scope.user.oldname = user.name;
 			}
 			$scope.updateUser = function(id) {
-				$scope.modal_style_user = {"display" : "none"};
+				$scope.modal_style_user_update = {"display" : "none"};
 				console.log("update user", id);
 				sendRequest('/updateUser', null, {"id":id, "new_name":$scope.user.name});
 			}
@@ -118,18 +137,39 @@ angular.
 			}
 			$scope.openCreateTemplate = function(id) {
 				console.log("openCreateTemplate", id);
-				$scope.modal_style_template = {"display" : "block"};
+				$scope.modal_style_template_create = {"display" : "block"};
+			}
+			$scope.createTemplate = function() {
+				console.log($scope.new_template_name);
+				$scope.modal_style_template = {"display" : "none"};
+				sendRequest('/createTemplate', function(response){
+					var request = response.srcElement;
+					if (request.readyState === XMLHttpRequest.DONE) {
+						if (request.status === 200) {
+							sendRequest('/getTemplates', getTemplates);
+						}
+					}
+				}, {"new_template_name":$scope.new_template_name});
 			}
 			$scope.openUpdateTemplate = function(id) {
 				console.log("openUpdateTemplate", id);
-				$scope.modal_style_template = {"display" : "block"};
+				$scope.modal_style_template_update = {"display" : "block"};
+			}
+			$scope.updateTemplate = function(id) {
+				console.log("updateTemplate", id);
 			}
 			$scope.deleteTemplate = function(id) {
 				console.log("deleteTemplate", id);
+				sendRequest('/deleteTemplate', null, {"id":id});
+				for(var i=0; i<self.templates.length; i++) {
+					if(self.templates[i].id === id) {
+						self.templates.splice(i, 1);
+					}
+				}
 			}
 			$scope.openUpdateApp = function(id) {
 				console.log("openUpdateApp", id);
-				$scope.modal_style_app = {"display" : "block"};
+				$scope.modal_style_app_update = {"display" : "block"};
 			}
 			$scope.deleteApp = function(id) {
 				console.log("deleteApp", id);
