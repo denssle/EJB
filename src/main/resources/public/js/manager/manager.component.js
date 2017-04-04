@@ -89,9 +89,8 @@ angular.
 			        $scope.modal_style_template_create = {"display" : "none"};
 			        $scope.modal_style_template_update = {"display" : "none"};
 			        $scope.modal_style_app_update = {"display" : "none"};
-			        console.log($scope.user);
-			        if($scope.user) {
-			        	$scope.user.name = $scope.user.oldname;
+			        if($scope.updateUserVar) {
+			        	$scope.updateUserVar.name = $scope.updateUserVar.oldname;
 			        }
 			        saveApply();
 			    }
@@ -117,13 +116,13 @@ angular.
 				var user = getUser(id)
 				console.log("openUpdateUser", id, user);
 				$scope.modal_style_user_update = {"display" : "block"};
-				$scope.user = user;
-				$scope.user.oldname = user.name;
+				$scope.updateUserVar = user;
+				$scope.updateUserVar.oldname = user.name;
 			}
 			$scope.updateUser = function(id) {
 				$scope.modal_style_user_update = {"display" : "none"};
 				console.log("update user", id);
-				sendRequest('/updateUser', null, {"id":id, "new_name":$scope.user.name});
+				sendRequest('/updateUser', null, {"id":id, "new_name":$scope.updateUserVar.name});
 			}
 			$scope.deleteUser = function(id) {
 				console.log("deleteUser", id);
