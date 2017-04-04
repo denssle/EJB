@@ -79,8 +79,9 @@
 		<p>Update template</p>
 		<form>
 			<label for="template_name">Templatename:</label>
-			<input type="text" name="template_name" ng-model="update_template_name" >
-			<input type="submit" value="Update" ng-click="updateTemplate()">
+			<input type="text" name="template_name" ng-model="updateTemplateVar.name" >
+			<br>
+			<input type="submit" value="Update" ng-click="updateTemplate(updateTemplateVar.id)" class="manager_button">
 		</form>
 	</div>
 </div>

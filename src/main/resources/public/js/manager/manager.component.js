@@ -167,14 +167,14 @@ angular.
 			}
 			$scope.openUpdateTemplate = function(id) {
 				var template = getTemplate(id);
-				console.log("openUpdateTemplate", id);
+				console.log("openUpdateTemplate", id, template);
 				$scope.modal_style_template_update = {"display" : "block"};
 				$scope.updateTemplateVar = template;
 				$scope.updateTemplateVar.oldname = template.name;
 			}
 			$scope.updateTemplate = function(id) {
 				console.log("updateTemplate", id);
-				$scope.modal_style_user_update = {"display" : "none"};
+				$scope.modal_style_template_update = {"display" : "none"};
 				sendRequest('/updateTemplate', null, {"id":id, "new_name":$scope.updateTemplateVar.name});
 				$scope.updateTemplateVar.oldname = $scope.updateTemplateVar.name;
 			}
