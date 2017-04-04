@@ -169,6 +169,20 @@ public class Application {
 		}
 	}
 	
+	@RequestMapping(value="/deleteUser", method = RequestMethod.POST)
+	public void deleteUser(HttpServletResponse httpResponse, WebRequest request) {
+		String token = request.getHeader("token");
+		String username = request.getHeader("username");
+		System.out.println("deleteUser auth: " +username + " / " + token);
+		if(authentificateUser(username, token)) {
+			String id = request.getHeader("id");
+			System.out.println("deleteUser: " +id);
+			UserDBC.deleteUser(Integer.parseInt(id));
+		} else {
+			httpResponse.setStatus(401);
+		}
+	}
+	
 	// for the h2 database console 
 	@Bean
 	public ServletRegistrationBean h2servletRegistration() {

@@ -6,8 +6,18 @@ angular.
 			function managerController($scope) {
 			var self = this,
 			backup_user;
-			self.user=[];
+			self.users=[];
 			self.tenplates = [];
+			
+			function saveApply() {
+				if ($scope.$root.$$phase !== '$apply' && $scope.$root.$$phase !== '$digest') {
+					console.log("update!");
+				    $scope.$apply();
+				} else {
+					console.log("Snap!");
+				}
+			}
+			
 			function sendRequest(url, fn, map) {
 				var request = new XMLHttpRequest();
 				request.onreadystatechange = fn;
@@ -43,12 +53,7 @@ angular.
 					if (request.status === 200) {
 						self.users = JSON.parse(request.responseText);
 						console.log("response text for users: ", self.users);
-						if ($scope.$root.$$phase !== '$apply' && $scope.$root.$$phase !== '$digest') {
-							console.log("user update!");
-						    $scope.$apply();
-						} else {
-							console.log("Snap!");
-						}
+						saveApply();
 					} else {
 						console.log('There was a problem with the request.', request.status);
 					}
@@ -60,12 +65,7 @@ angular.
 					if (request.status === 200) {
 						self.templates = JSON.parse(request.responseText);
 						console.log("response text for templates: ", self.templates);
-						if ($scope.$root.$$phase !== '$apply' && $scope.$root.$$phase !== '$digest') {
-							console.log("template update!");
-						    $scope.$apply();
-						} else {
-							console.log("Snap!");
-						}
+						saveApply();
 					} else {
 						console.log('There was a problem with the request.', request.status);
 					}
@@ -90,7 +90,7 @@ angular.
 			        $scope.modal_style_app = {"display" : "none"};
 			        console.log($scope.user);
 			        $scope.user.name = $scope.user.oldname;
-			        $scope.$apply();
+			        saveApply();
 			    }
 			}
 			
@@ -108,6 +108,13 @@ angular.
 			}
 			$scope.deleteUser = function(id) {
 				console.log("deleteUser", id);
+				sendRequest('/deleteUser', null, {"id":id});
+				for(var i=0; i<self.users.length; i++) {
+					if(self.users[i].id === id) {
+						self.users.splice(i, 1);
+					}
+				}
+				saveApply();
 			}
 			$scope.openCreateTemplate = function(id) {
 				console.log("openCreateTemplate", id);
