@@ -81,6 +81,16 @@ angular.
 				return null;
 			}
 			
+			function getTemplate(id) {
+				for(var i=0; i<self.templates.length; i++) {
+					var template = self.templates[i];
+					if(template.id === id) {
+						return template;
+					}
+				}
+				return null;
+			}
+			
 			// When the user clicks anywhere outside of the modal, close it
 			window.onclick = function(event) {
 			    if (event.target.className === "modal_wrapper") {
@@ -92,10 +102,13 @@ angular.
 			        if($scope.updateUserVar) {
 			        	$scope.updateUserVar.name = $scope.updateUserVar.oldname;
 			        }
+			        if($scope.updateTemplateVar) {
+			        	$scope.updateTemplateVar.name = $scope.updateTemplateVar.oldname;
+			        }
 			        saveApply();
 			    }
 			}
-			
+			// USER STUFF
 			$scope.openCreateUser = function(id) {
 				console.log("openCreateUser", id);
 				$scope.modal_style_user_create = {"display" : "block"};
@@ -123,6 +136,7 @@ angular.
 				$scope.modal_style_user_update = {"display" : "none"};
 				console.log("update user", id);
 				sendRequest('/updateUser', null, {"id":id, "new_name":$scope.updateUserVar.name});
+				$scope.updateUserVar.oldname = $scope.updateUserVar.name;
 			}
 			$scope.deleteUser = function(id) {
 				console.log("deleteUser", id);
@@ -134,13 +148,14 @@ angular.
 				}
 				saveApply();
 			}
+			//TEMPLATES
 			$scope.openCreateTemplate = function(id) {
 				console.log("openCreateTemplate", id);
 				$scope.modal_style_template_create = {"display" : "block"};
 			}
 			$scope.createTemplate = function() {
-				console.log($scope.new_template_name);
-				$scope.modal_style_template = {"display" : "none"};
+				console.log("createTemplate", $scope.createTemplateName);
+				$scope.modal_style_template_create = {"display" : "none"};
 				sendRequest('/createTemplate', function(response){
 					var request = response.srcElement;
 					if (request.readyState === XMLHttpRequest.DONE) {
@@ -148,14 +163,20 @@ angular.
 							sendRequest('/getTemplates', getTemplates);
 						}
 					}
-				}, {"new_template_name":$scope.new_template_name});
+				}, {newTemplateName:$scope.createTemplateName});
 			}
 			$scope.openUpdateTemplate = function(id) {
+				var template = getTemplate(id);
 				console.log("openUpdateTemplate", id);
 				$scope.modal_style_template_update = {"display" : "block"};
+				$scope.updateTemplateVar = template;
+				$scope.updateTemplateVar.oldname = template.name;
 			}
 			$scope.updateTemplate = function(id) {
 				console.log("updateTemplate", id);
+				$scope.modal_style_user_update = {"display" : "none"};
+				sendRequest('/updateTemplate', null, {"id":id, "new_name":$scope.updateTemplateVar.name});
+				$scope.updateTemplateVar.oldname = $scope.updateTemplateVar.name;
 			}
 			$scope.deleteTemplate = function(id) {
 				console.log("deleteTemplate", id);
@@ -166,6 +187,7 @@ angular.
 					}
 				}
 			}
+			// APPS
 			$scope.openUpdateApp = function(id) {
 				console.log("openUpdateApp", id);
 				$scope.modal_style_app_update = {"display" : "block"};

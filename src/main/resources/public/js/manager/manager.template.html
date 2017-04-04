@@ -67,8 +67,9 @@
 		<p>Create template</p>
 		<form>
 			<label for="template_name">Templatename:</label>
-			<input type="text" name="template_name" ng-model="new_template_name" >
-			<input type="submit" value="Create" ng-click="createTemplate()">
+			<input type="text" name="template_name" ng-model="createTemplateName" >
+			<br>
+			<input type="submit" value="Create" ng-click="createTemplate()" class="manager_button">
 		</form>
 	</div>
 </div>

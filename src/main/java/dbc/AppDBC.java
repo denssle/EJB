@@ -148,6 +148,14 @@ public class AppDBC {
 		updateAppList();
 	}
 	
+	public static void updateTemplate(String new_name, int id) {
+		create.update(APPTEMPLATES)
+		  .set(APPTEMPLATES.NAME, new_name)
+		  .where(APPTEMPLATES.ID.equal(id))
+		  .execute();
+		
+	}
+	
 	public static void deleteTemplate(int id) {
 		create.delete(APPTEMPLATES)
 	      .where(APPTEMPLATES.ID.equal(id))

@@ -204,9 +204,24 @@ public class Application {
 		String username = request.getHeader("username");
 		System.out.println("createTemplate auth: " +username + " / " + token);
 		if(authentificateUser(username, token)) {
-			String new_template_name = request.getHeader("new_template_name");
-			System.out.println("createTemplate: " +new_template_name);
-			AppDBC.createTemplate(new_template_name);
+			String newTemplateName = request.getHeader("newTemplateName");
+			System.out.println("createTemplate: " + newTemplateName);
+			AppDBC.createTemplate(newTemplateName);
+		} else {
+			httpResponse.setStatus(401);
+		}
+	}
+	
+	@RequestMapping(value="/updateTemplate", method = RequestMethod.POST)
+	public void updateTemplate(HttpServletResponse httpResponse, WebRequest request) {
+		String token = request.getHeader("token");
+		String username = request.getHeader("username");
+		System.out.println("updateTemplate auth: " +username + " / " + token);
+		if(authentificateUser(username, token)) {
+			String new_name = request.getHeader("new_name");
+			String id = request.getHeader("id");
+			System.out.println("updateTemplate: " +new_name);
+			AppDBC.updateTemplate(new_name, Integer.parseInt(id));
 		} else {
 			httpResponse.setStatus(401);
 		}
