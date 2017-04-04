@@ -1,0 +1,58 @@
+<link rel="stylesheet" href="/css/manager.css" />
+<div id="div_manager_headline">
+	<form action="/#!/lauchpad" id="form_manager_back">
+		<input type="submit" value="Back" class="manager_button"/>
+	</form>
+</div>
+<div id="div_manager_users">
+	<div>
+		<div id="users_headline">Users</div>
+	</div>
+	<div ng-repeat="user in $ctrl.users" id="users_entry">
+		<div id="user_name">{{user.name}}</div>
+		<div class="manager_button" ng-click="openUpdateUser(user.id)"> ✎ </div>
+		<div class="manager_button" ng-click="deleteUser(user.id)"> ✖ </div>
+	</div>
+</div>
+<br>
+<div id="div_manager_templates">
+	<div>
+		<div id="templates_headline">Templates and apps</div>
+		<div class="manager_button" ng-click="openCreateTemplate()"> + </div>
+	</div>
+	<div ng-repeat="template in $ctrl.templates" id="div_template_entry">
+		<div id="template_entry" >
+			<div id="template_name">{{template.name}}</div>
+			<div class="manager_button" ng-click="openUpdateTemplate(template.id)"> ✎ </div>
+			<div class="manager_button" ng-click="deleteTemplate(template.id)"> ✖ </div>
+		</div>
+	    <br>
+		<div ng-repeat="app in template.apps" id="app_entry">
+			<div id="app_name">{{app.name}}</div>
+			<div class="manager_button" ng-click="openUpdateApp(app.id)"> ✎ </div>
+			<div class="manager_button" ng-click="deleteApp(app.id)"> ✖ </div>
+		</div>
+	</div>
+</div>
+
+<div id="id_modal_user" ng-style="modal_style_user">
+	<div id="modal_content_user">
+		<form>
+			<label for="username">Name:</label>
+			<input type="text" name="username" ng-model="user.name" >
+			<input type="submit" value="Update" name="update_user" ng-click="updateUser(user.id)">
+		</form>
+	</div>
+</div>
+
+<div id="id_modal_template" ng-style="modal_style_template">
+	<div id="modal_content_template">
+		<p>TEMP</p>
+	</div>
+</div>
+
+<div id="id_modal_app" ng-style="modal_style_app">
+	<div id="modal_content_app">
+		<p>APP</p>
+	</div>
+</div>

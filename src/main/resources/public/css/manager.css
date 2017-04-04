@@ -1,0 +1,143 @@
+#div_manager_headline{
+	border-left: solid black;
+    padding-left: 1%;
+    padding-bottom: 1%;
+}
+
+.manager_button{
+	background-color: white;
+    border: solid black;
+    display: inline-table;
+    min-width: 2.5vw;
+    text-align: center;
+    cursor: pointer;
+}
+
+.manager_button:hover {
+	background-color: lightgrey;
+}
+
+#users_headline{
+	display: inline-table;
+	text-decoration: underline;
+}
+
+#div_manager_users {
+	border-left: solid black;
+    padding-left: 1%;
+    margin-top: 1%;
+}
+
+#users_entry{
+	padding-left: 1%;
+    border-left: solid black;
+    margin-bottom: 1%;
+}
+
+#user_name {
+	display: inline-table;
+}
+
+#div_manager_templates{
+	border-left: solid black;
+    padding-left: 1%;
+    margin-top: 1%;
+}
+
+#div_template_entry {
+	padding-left: 1%;
+    margin-bottom: 2%;
+    border-left: solid black;
+    margin-top: 1%;
+}
+
+#templates_headline{
+	display: inline-table;
+	text-decoration: underline;
+}
+
+#template_name {
+	font-weight: bold;
+    display: inline-table;
+}
+
+#app_entry {
+	padding-bottom: 1%;
+}
+
+#app_name {
+	display: inline-table;
+}
+
+#id_modal_user {
+    display: none; /* Hidden by default */
+    position: fixed; /* Stay in place */
+    z-index: 1; /* Sit on top */
+    left: 0;
+    top: 0;
+    width: 100%; /* Full width */
+    height: 100%; /* Full height */
+    overflow: auto; /* Enable scroll if needed */
+    background-color: rgb(0,0,0); /* Fallback color */
+    background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+}
+
+#modal_content_user {
+    background-color: white;
+    margin: 15% auto; /* 15% from the top and centered */
+    padding: 3%;
+    border: solid black;
+    width: 80%; /* Could be more or less, depending on screen size */
+}
+
+#id_modal_template {
+    display: none; /* Hidden by default */
+    position: fixed; /* Stay in place */
+    z-index: 1; /* Sit on top */
+    left: 0;
+    top: 0;
+    width: 100%; /* Full width */
+    height: 100%; /* Full height */
+    overflow: auto; /* Enable scroll if needed */
+    background-color: rgb(0,0,0); /* Fallback color */
+    background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+}
+
+#modal_content_template {
+    background-color: white;
+    margin: 15% auto; /* 15% from the top and centered */
+    padding: 3%;
+    border: solid black;
+    width: 80%; /* Could be more or less, depending on screen size */
+}
+
+#id_modal_app {
+    display: none; /* Hidden by default */
+    position: fixed; /* Stay in place */
+    z-index: 1; /* Sit on top */
+    left: 0;
+    top: 0;
+    width: 100%; /* Full width */
+    height: 100%; /* Full height */
+    overflow: auto; /* Enable scroll if needed */
+    background-color: rgb(0,0,0); /* Fallback color */
+    background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+}
+
+#modal_content_app {
+    background-color: white;
+    margin: 15% auto; /* 15% from the top and centered */
+    padding: 3%;
+    border: solid black;
+    width: 80%; /* Could be more or less, depending on screen size */
+}
+
+ label {
+   	min-width: 80px;
+    display: inline-block;
+ }
+ 
+ input {
+	border-color: black;
+    border-width: medium;
+}

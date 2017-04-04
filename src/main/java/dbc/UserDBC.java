@@ -68,19 +68,12 @@ public class UserDBC {
 		updateUserList();
 	}
 	
-	public static void updateUser(int id, String newName, String newPassword) {
-		try {
-			String hashed = PasswordHash.getSaltedHash(newPassword);
-			create.update(USERS)
-		      .set(USERS.NAME, newName)
-		      .set(USERS.PASSWORD, hashed)
-		      .where(USERS.ID.equal(id))
-		      .execute();
-			updateUserList();
-		} catch (NoSuchAlgorithmException | InvalidKeySpecException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+	public static void updateUser(int id, String newName) {
+		create.update(USERS)
+		  .set(USERS.NAME, newName)
+		  .where(USERS.ID.equal(id))
+		  .execute();
+		updateUserList();
 	}
 	
 	public static User findUserByName(String name) {
@@ -147,5 +140,9 @@ public class UserDBC {
 	      .where(USERS.ID.equal(id))
 	      .execute();
 		updateUserList();
+	}
+	
+	public static ArrayList<User> getUsers() {
+		return users;
 	}
 }

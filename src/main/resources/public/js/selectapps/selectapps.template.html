@@ -14,7 +14,7 @@
 	    <br>
 		<div ng-repeat="app in template.apps" id="app_entry" ng-click="checkApp(app.id)">
 			<div id="app_name">{{app.name}}</div>
-			<div id="app_checked" ng-if="app.checked"> ✘ </div>
+			<div id="app_checked" ng-if="app.checked"> ✖ </div>
 		    <div id="app_unchecked" ng-if="!app.checked"> ✔ </div>
 			<div id="app_description">{{app.description}}</div>
 		</div>

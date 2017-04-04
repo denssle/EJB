@@ -141,7 +141,35 @@ public class Application {
 		}
 	}
 	
-	// for the h2 database console
+	@RequestMapping(value="/getUsers", method = RequestMethod.POST)
+	public ArrayList<User> getUsers(HttpServletResponse httpResponse, WebRequest request) {
+		String token = request.getHeader("token");
+		String username = request.getHeader("username");
+		System.out.println("getUsersAndTemplates auth: " +username + " / " + token);
+		if(authentificateUser(username, token)) {
+			return UserDBC.getUsers();
+		} else {
+			httpResponse.setStatus(401);
+		}
+		return null;
+	}
+	
+	@RequestMapping(value="/updateUser", method = RequestMethod.POST)
+	public void updateUser(HttpServletResponse httpResponse, WebRequest request) {
+		String token = request.getHeader("token");
+		String username = request.getHeader("username");
+		System.out.println("updateUser auth: " +username + " / " + token);
+		if(authentificateUser(username, token)) {
+			String id = request.getHeader("id");
+			String new_name = request.getHeader("new_name");
+			System.out.println("updateUser: " +id + " / " + new_name);
+			UserDBC.updateUser(Integer.parseInt(id), new_name);
+		} else {
+			httpResponse.setStatus(401);
+		}
+	}
+	
+	// for the h2 database console 
 	@Bean
 	public ServletRegistrationBean h2servletRegistration() {
 	    ServletRegistrationBean registration = new ServletRegistrationBean(new WebServlet());

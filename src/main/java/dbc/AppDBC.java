@@ -100,6 +100,7 @@ public class AppDBC {
 		}
 		result.add(new App(generateAppID(), "+", "Create a new app", "/#!/createapp", 0));
 		result.add(new App(generateAppID()+1, "Select Apps", "Choose the apps you want on your launchpad", "/#!/selectapps", 0));
+		result.add(new App(generateAppID()+2, "manager", "update apps and users", "/#!/manager", 0));
 		return result;
 	}
 	

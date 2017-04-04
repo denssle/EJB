@@ -20,6 +20,9 @@ angular.
 			when('/selectapps', {
 				template: '<selectapps></selectapps>'
 			}).
+			when('/manager', {
+				template: '<manager></manager>'
+			}).
 			otherwise({
 		        redirectTo: '/lauchpad'
 		    });
