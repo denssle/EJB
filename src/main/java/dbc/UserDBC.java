@@ -1,5 +1,6 @@
 package dbc;
 
+import static org.jooq.h2.generated.Tables.APPS;
 import static org.jooq.h2.generated.Tables.USERS;
 
 import java.security.NoSuchAlgorithmException;
@@ -16,17 +17,14 @@ import bean.Template;
 import bean.User;
 
 public class UserDBC {
-	private static ArrayList<User> users; 
-	private static DSLContext create;
+	private DSLContext create;
 	
-	protected static void initUserDBC(DSLContext context) {
-		create = context;
-		users = new ArrayList<>();
-		updateUserList();
+	public UserDBC(DSLContext context) {
+		this.create = context;
 	}
 	
-	private static void updateUserList() {
-		users.clear();
+	public ArrayList<User> getUserList() {
+		ArrayList<User> users = new ArrayList<>();
 		try{
 			Result<Record> result = create.select().from(USERS).fetch();
 			for (Record r : result) {
@@ -40,13 +38,15 @@ public class UserDBC {
 		} catch (DataAccessException e) {
 			// TODO: handle exception
 		}
+		return users;
 	}
 	
-	private static int generateID() {
+	private int generateID() {
+		ArrayList<User> users = getUserList();
 		return users.get(users.size()-1).getId() + 1;
 	}
 	
-	public static void createUser(String name, String pw) {
+	public void createUser(String name, String pw) {
 		int id = generateID();
 		String hashed;
 		try {
@@ -54,38 +54,37 @@ public class UserDBC {
 			create.insertInto(USERS, USERS.ID, USERS.NAME, USERS.PASSWORD)
 			.values(id, name, hashed)
 			.execute();
-			updateUserList();
 		} catch (NoSuchAlgorithmException | InvalidKeySpecException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
 	
-	public static void deleteUser(int id) {
+	public void deleteUser(int id) {
 		create.delete(USERS)
 	      .where(USERS.ID.equal(id))
 	      .execute();
-		updateUserList();
 	}
 	
-	public static void updateUser(int id, String newName) {
+	public void updateUser(int id, String newName) {
 		create.update(USERS)
 		  .set(USERS.NAME, newName)
 		  .where(USERS.ID.equal(id))
 		  .execute();
-		updateUserList();
 	}
 	
-	public static User findUserByName(String name) {
-		for(User user : users) {
-			if(user.getName().equals(name)) {
-				return user;
-			}
-		}
-		return null;
+	public User findUserByName(String username) {
+		Record r = create.select().from(USERS).where(USERS.NAME.equal(username)).fetchOne();
+		Integer userid = r.getValue(USERS.ID);
+        String name = r.getValue(USERS.NAME);
+        String pw = r.getValue(USERS.PASSWORD);
+        String token = r.getValue(USERS.TOKEN);
+        String appIds = r.getValue(USERS.APPS);
+        return(new User(userid, name, pw, token, appIds));
 	}
 	
-	public static User isNameAndPassCorrect(String name, String pw) {
+	public User isNameAndPassCorrect(String name, String pw) {
+		ArrayList<User> users = getUserList();
 		for(User user : users) {
 			try {
 				if(user.getName().equals(name) && PasswordHash.passwordCheck(pw, user.getPassword())) {
@@ -99,7 +98,7 @@ public class UserDBC {
 		return null;
 	}
 	
-	public static void checkApp(String username, String appId) {
+	public void checkApp(String username, String appId) {
 		String result = "";
 		User user = findUserByName(username);
 		if(user.isAppChecked(Integer.parseInt(appId))) { // remove app
@@ -113,7 +112,7 @@ public class UserDBC {
 		updateUserAppList(user.getId(), result);
 	}
 	
-	public static void checkTemplate(String username, Template template) {
+	public void checkTemplate(String username, Template template) {
 		String result = "";
 		User user = findUserByName(username);
 		if(template.isChecked()) {
@@ -133,16 +132,11 @@ public class UserDBC {
 		updateUserAppList(user.getId(), result);
 	}
 	
-	private static void updateUserAppList(Integer id, String result) {
+	private void updateUserAppList(Integer id, String result) {
 		System.out.println("new applist: " + result);
 		create.update(USERS)
 	      .set(USERS.APPS, result)
 	      .where(USERS.ID.equal(id))
 	      .execute();
-		updateUserList();
-	}
-	
-	public static ArrayList<User> getUsers() {
-		return users;
 	}
 }

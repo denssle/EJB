@@ -7,9 +7,9 @@ import constants.C;
 import dbc.UserDBC;
 
 public class DBC {
-	private static Connection connection;
+	private Connection connection;
 	
-    public static void connect() {    	
+    public DSLContext connect() {    	
     	try {
 			Class.forName(C.DB_DRIVER);
 			String url = C.DB_URL;
@@ -17,8 +17,7 @@ public class DBC {
 			String pw = C.DB_PASSWORD;
 			connection = DriverManager.getConnection(url, user, pw);
 			DSLContext create = DSL.using(connection, SQLDialect.H2);
-			UserDBC.initUserDBC(create);
-			AppDBC.initAppDBC(create);
+			return create;
 		} catch (ClassNotFoundException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -26,9 +25,10 @@ public class DBC {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+    	return null;
     }
     
-    public static void close() {
+    public void close() {
     	try {
 			connection.close();
 		} catch (SQLException e) {

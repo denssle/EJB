@@ -8,6 +8,7 @@ import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletResponse;
 
 import org.h2.server.web.WebServlet;
+import org.jooq.DSLContext;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.web.servlet.ServletRegistrationBean;
@@ -35,7 +36,7 @@ public class Application {
 	@RequestParam(name =C.PASSWORD, required=true) String password,
 	HttpServletResponse httpResponse, WebRequest request) {
 		System.out.println("login: user: " + username + " password: " + password);
-		User user = UserDBC.isNameAndPassCorrect(username, password);
+		User user = userDBC.isNameAndPassCorrect(username, password);
 		if(user == null) {
 			redirectToIndex(httpResponse);
 		} else {
@@ -53,10 +54,10 @@ public class Application {
 			@RequestParam(name=C.PASSWORD) String password,
 			HttpServletResponse httpResponse, WebRequest request) {
 		System.out.println("reg: user: " + username + " password: " + password);
-		User user = UserDBC.findUserByName(username);
+		User user = userDBC.findUserByName(username);
 		if(user == null) {
-			UserDBC.createUser(username, password);
-			user = UserDBC.findUserByName(username);
+			userDBC.createUser(username, password);
+			user = userDBC.findUserByName(username);
 			redirectToLauchpad(httpResponse, user);
 		} else {
 			redirectToIndex(httpResponse);
@@ -75,7 +76,7 @@ public class Application {
 		String username = request.getHeader("username");
 		System.out.println("auth: " +username + " / " + token);
 		if(authentificateUser(username, token)) {
-			return AppDBC.getApps(UserDBC.findUserByName(username).getAppIds());
+			return appDBC.getApps(userDBC.findUserByName(username).getAppIds());
 		} else {
 			httpResponse.setStatus(401);
 			return null;
@@ -88,7 +89,7 @@ public class Application {
 		String username = request.getHeader("username");
 		System.out.println("getTemplates auth: " +username + " / " + token);
 		if(authentificateUser(username, token)) {
-			return AppDBC.getTemplates(UserDBC.findUserByName(username).getAppIds());
+			return appDBC.getTemplates(userDBC.findUserByName(username).getAppIds());
 		} else {
 			httpResponse.setStatus(401);
 			return null;
@@ -106,8 +107,8 @@ public class Application {
 			String app_description = request.getHeader("app_description");
 			Integer app_template_id = Integer.parseInt(request.getHeader("app_template_id"));
 			System.out.println("createapp "+app_name+" "+app_url+" "+app_description+" "+app_template_id);
-			AppDBC.createApp(app_name, app_description, app_url, app_template_id);
-			redirectToLauchpad(httpResponse, UserDBC.findUserByName(username));
+			appDBC.createApp(app_name, app_description, app_url, app_template_id);
+			redirectToLauchpad(httpResponse, userDBC.findUserByName(username));
 		}
 	}
 	
@@ -118,8 +119,8 @@ public class Application {
 		String appid = request.getHeader("appid");
 		System.out.println("checkApp auth: " +username + " / " + token);
 		if(authentificateUser(username, token)) {
-			UserDBC.checkApp(username, appid);
-			return AppDBC.getTemplates(UserDBC.findUserByName(username).getAppIds());
+			userDBC.checkApp(username, appid);
+			return appDBC.getTemplates(userDBC.findUserByName(username).getAppIds());
 		} else {
 			httpResponse.setStatus(401);
 			return null;
@@ -133,8 +134,8 @@ public class Application {
 		String templateId = request.getHeader("templateId");
 		System.out.println("checkTemplate auth: " +username + " / " + token);
 		if(authentificateUser(username, token)) {
-			UserDBC.checkTemplate(username, AppDBC.getTemplate(Integer.parseInt(templateId)));
-			return AppDBC.getTemplates(UserDBC.findUserByName(username).getAppIds());
+			userDBC.checkTemplate(username, appDBC.getTemplate(Integer.parseInt(templateId)));
+			return appDBC.getTemplates(userDBC.findUserByName(username).getAppIds());
 		} else {
 			httpResponse.setStatus(401);
 			return null;
@@ -147,7 +148,7 @@ public class Application {
 		String username = request.getHeader("username");
 		System.out.println("getUsersAndTemplates auth: " +username + " / " + token);
 		if(authentificateUser(username, token)) {
-			return UserDBC.getUsers();
+			return userDBC.getUserList();
 		} else {
 			httpResponse.setStatus(401);
 		}
@@ -163,7 +164,7 @@ public class Application {
 			String newUserName = request.getHeader("newUserName");
 			String newUserPassword = request.getHeader("newUserPassword");
 			System.out.println("createUser: " +newUserName + " / " + newUserPassword);
-			UserDBC.createUser(newUserName, newUserPassword);
+			userDBC.createUser(newUserName, newUserPassword);
 		} else {
 			httpResponse.setStatus(401);
 		}
@@ -178,7 +179,7 @@ public class Application {
 			String id = request.getHeader("id");
 			String new_name = request.getHeader("new_name");
 			System.out.println("updateUser: " +id + " / " + new_name);
-			UserDBC.updateUser(Integer.parseInt(id), new_name);
+			userDBC.updateUser(Integer.parseInt(id), new_name);
 		} else {
 			httpResponse.setStatus(401);
 		}
@@ -192,7 +193,7 @@ public class Application {
 		if(authentificateUser(username, token)) {
 			String id = request.getHeader("id");
 			System.out.println("deleteUser: " +id);
-			UserDBC.deleteUser(Integer.parseInt(id));
+			userDBC.deleteUser(Integer.parseInt(id));
 		} else {
 			httpResponse.setStatus(401);
 		}
@@ -206,7 +207,7 @@ public class Application {
 		if(authentificateUser(username, token)) {
 			String newTemplateName = request.getHeader("newTemplateName");
 			System.out.println("createTemplate: " + newTemplateName);
-			AppDBC.createTemplate(newTemplateName);
+			appDBC.createTemplate(newTemplateName);
 		} else {
 			httpResponse.setStatus(401);
 		}
@@ -221,7 +222,7 @@ public class Application {
 			String new_name = request.getHeader("new_name");
 			String id = request.getHeader("id");
 			System.out.println("updateTemplate: " +new_name);
-			AppDBC.updateTemplate(new_name, Integer.parseInt(id));
+			appDBC.updateTemplate(new_name, Integer.parseInt(id));
 		} else {
 			httpResponse.setStatus(401);
 		}
@@ -235,7 +236,7 @@ public class Application {
 		if(authentificateUser(username, token)) {
 			String id = request.getHeader("id");
 			System.out.println("deleteTemplate: " +id);
-			AppDBC.deleteTemplate(Integer.parseInt(id));
+			appDBC.deleteTemplate(Integer.parseInt(id));
 		} else {
 			httpResponse.setStatus(401);
 		}
@@ -253,7 +254,7 @@ public class Application {
 			String url = request.getHeader("url");
 			Integer templateId = Integer.parseInt(request.getHeader("template"));
 			System.out.println("updateApp: " + id + " name " + name + " description " + description + " url " + url + " template " + templateId);
-			AppDBC.updateApp(id, name, description, url, templateId);
+			appDBC.updateApp(id, name, description, url, templateId);
 		} else {
 			httpResponse.setStatus(401);
 		}
@@ -281,7 +282,7 @@ public class Application {
 	}
 	
 	private boolean authentificateUser(String username, String token) {
-		User user = UserDBC.findUserByName(username);
+		User user = userDBC.findUserByName(username);
 		try {
 			if(user != null && PasswordHash.checkToken(user.getName(), user.getPassword(), token)) {
 				return true;
@@ -321,9 +322,14 @@ public class Application {
 		addToken(httpResponse, user);
 	}
 	
+	private static UserDBC userDBC;
+	private static AppDBC appDBC;
 	public static void main(String[] args) {
-		DBC.connect();
-		// UserDBC.close();
+		DBC dbc = new DBC();
+		DSLContext create = dbc.connect();
+		userDBC = new UserDBC(create);
+		appDBC = new AppDBC(create);
+		
 		SpringApplication.run(Application.class, args);
 	}
 }
