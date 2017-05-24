@@ -39,21 +39,6 @@ angular.
 				request.send();
 			}
 			
-			function getToken(cookie_name) {
-				var read_cookies = document.cookie;
-				var split_read_cookie = read_cookies.split(";");
-				for (i=0;i<split_read_cookie.length;i++){
-					var value=split_read_cookie[i];
-					value=value.split("=");
-					var str = value[0].replace(/\s+/g, '');
-					if(str===cookie_name){
-						console.log("for "+cookie_name+" token found", value[1], split_read_cookie.length);
-						return value[1];
-					}
-				}
-				console.warn("for "+cookie_name+" NO token found");
-			}
-			
 			function getApp(id) {
 				for(var i=0; i<self.response.length; i++) {
 					var template = self.response[i];

@@ -1,0 +1,49 @@
+<databaseChangeLog
+	xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+	xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog-ext
+	http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd 
+	http://www.liquibase.org/xml/ns/dbchangelog 
+	http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.4.xsd">
+	
+	<changeSet author="den" id="renameTableAppTemplate">
+		<renameTable 
+			newTableName="templates"
+			oldTableName="apptemplates"
+			schemaName="public"/>
+	</changeSet>
+	
+	<changeSet id="createTableAppTableAgain" author="den">
+	<createTable tableName="apptemplate">
+		<column name="appId" type="int">
+			<constraints primaryKey="true" nullable="false" />
+		</column>
+		<column name="templateId" type="int">
+			<constraints primaryKey="true" nullable="false" />
+		</column>
+	</createTable>
+	</changeSet>
+	
+	<changeSet author="den" id="dropColumnAppsTemplate">
+	<dropColumn 
+		columnName="template"
+		tableName="apps"/>
+	</changeSet>
+	
+	<changeSet author="den" id="dropColumnUserApps">
+	<dropColumn 
+		columnName="apps"
+		tableName="users"/>
+	</changeSet>
+
+	<changeSet author="den" id="dropColumnUserToken">
+	<dropColumn 
+		columnName="token"
+		tableName="users"/>
+	</changeSet>
+	
+	<changeSet id="tag-1.7" author="den">
+    	<tagDatabase tag="1.7" />
+    </changeSet>
+</databaseChangeLog>

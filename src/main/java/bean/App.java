@@ -5,15 +5,13 @@ public class App {
     private String name;
     private String description;
     private String url;
-    private Integer templateId;
     private Boolean checked;
     
-    public App(int id, String name, String description, String url, Integer templateId) {
+    public App(int id, String name, String description, String url) {
     	this.id = id; 
         this.name = name;
         this.description = description;
         this.url = url;
-        this.templateId = templateId;
         this.checked = false;
     }
 
@@ -31,10 +29,6 @@ public class App {
     
     public String getUrl() {
     	return this.url;
-    }
-    
-    public Integer getTemplate() {
-    	return this.templateId;
     }
     
     public void check() {

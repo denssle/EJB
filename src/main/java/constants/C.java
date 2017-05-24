@@ -1,8 +1,8 @@
 package constants;
 
 public class C {
-	public static final String PATH_ENTER = "/enter";
 	public static final String PATH_LOGIN = "/login";
+	public static final String PATH_REGISTER = "/register";
 	public static final String PATH_CONSOLE = "/console/*";
 	public static final String PATH_LOGOUT = "/logout";
 	public static final String PATH_ANGULAR_INDEX = "/#!/";

@@ -1,6 +1,5 @@
 package dbc;
 
-import static org.jooq.h2.generated.Tables.APPS;
 import static org.jooq.h2.generated.Tables.USERS;
 
 import java.security.NoSuchAlgorithmException;
@@ -12,7 +11,6 @@ import org.jooq.Record;
 import org.jooq.Result;
 import org.jooq.exception.DataAccessException;
 
-import bean.App;
 import bean.Template;
 import bean.User;
 
@@ -31,9 +29,7 @@ public class UserDBC {
 				Integer id = r.getValue(USERS.ID);
 	            String name = r.getValue(USERS.NAME);
 	            String pw = r.getValue(USERS.PASSWORD);
-	            String token = r.getValue(USERS.TOKEN);
-	            String appIds = r.getValue(USERS.APPS);
-	            users.add(new User(id, name, pw, token, appIds));
+	            users.add(new User(id, name, pw));
 	        }
 		} catch (DataAccessException e) {
 			// TODO: handle exception
@@ -78,9 +74,7 @@ public class UserDBC {
 		Integer userid = r.getValue(USERS.ID);
         String name = r.getValue(USERS.NAME);
         String pw = r.getValue(USERS.PASSWORD);
-        String token = r.getValue(USERS.TOKEN);
-        String appIds = r.getValue(USERS.APPS);
-        return(new User(userid, name, pw, token, appIds));
+        return(new User(userid, name, pw));
 	}
 	
 	public User isNameAndPassCorrect(String name, String pw) {
@@ -101,6 +95,7 @@ public class UserDBC {
 	public void checkApp(String username, String appId) {
 		String result = "";
 		User user = findUserByName(username);
+		/*
 		if(user.isAppChecked(Integer.parseInt(appId))) { // remove app
 			user.removeApp(Integer.parseInt(appId));
 		} else { // check app
@@ -109,12 +104,14 @@ public class UserDBC {
 		for(Integer i : user.getAppIds()) {
 			result = result+i+",";
 		}
+		*/
 		updateUserAppList(user.getId(), result);
 	}
 	
 	public void checkTemplate(String username, Template template) {
 		String result = "";
 		User user = findUserByName(username);
+		/*
 		if(template.isChecked()) {
 			template.uncheck();
 			for(App app: template.getApps()) {
@@ -129,14 +126,17 @@ public class UserDBC {
 		for(Integer i : user.getAppIds()) {
 			result = result+i+",";
 		}
+		*/
 		updateUserAppList(user.getId(), result);
 	}
 	
 	private void updateUserAppList(Integer id, String result) {
+		/*
 		System.out.println("new applist: " + result);
 		create.update(USERS)
 	      .set(USERS.APPS, result)
 	      .where(USERS.ID.equal(id))
 	      .execute();
+	      */
 	}
 }
