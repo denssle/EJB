@@ -54,6 +54,8 @@ src/org/*
 src/main/org/*
 src/main/java/org/*
 /target/
+/.idea
 
 src/main/resources/public/angular/angular.js
 src/main/resources/public/angular/angular-route.js
+EnterpriseJavaBasics.iml
