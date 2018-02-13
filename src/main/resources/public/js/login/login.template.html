@@ -1,14 +1,15 @@
-<form action="/enter" method="post" id="login_form">
+<link rel="stylesheet" href="/css/login.css" />
+<form id="login_form">
 	<div id="login_username_div">
 		<label for="username" class="login_label">Name:</label>
-		<input type="text" name="username" ng-model="username" id="login_username_input">
+		<input type="text" name="username" ng-model="username" ng-class="login_input_name">
 	</div>
 	<div id="login_password_div">
 		<label for="password" class="login_label">Password:</label>
-		<input type="password" name="password"  id="login_password_input">
+		<input type="password" name="password" ng-model="password" ng-class="login_input_pw">
 	</div>
 	<div id="login_buttons_div">
-		<input type="submit" value="Login" name="login" ng-click="update()" id="login_button">
-		<input type="submit" value="Register" name="register" id="register_button">
+		<input type="submit" value="Login" name="login" ng-click="login()" ng-class="login_button">
+		<input type="submit" value="Register" name="register" ng-click="register()" ng-class="login_button">
 	</div>
 </form>

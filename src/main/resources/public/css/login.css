@@ -13,32 +13,32 @@
 	margin-bottom: 2%;
 }
 
-#login_button {
+.login_button {
     background-color: white;
     border: solid black;
+    cursor: pointer;
 }
 
-#register_button {
-    background-color: white;
-    border: solid black;
-}
-
-#login_button:hover {
+.login_button:hover {
 	background-color: lightgrey;
 }
 
-#register_button:hover {
-	background-color: lightgrey;
+.login_button_invalide{
+	background-color: white;
+    border: solid lightgrey;
+    opacity: 0.70;
 }
 
-#login_username_input {
+.login_input_text {
 	border-color: black;
     border-width: medium;
+    background-color: white;
 }
 
-#login_password_input {
-	border-color: black;
+.login_input_text_invalide {
+	border-color: red;
     border-width: medium;
+    background-color: lightcoral;
 }
 
  label {
