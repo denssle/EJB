@@ -1,5 +1,6 @@
 package controller;
 
+import java.io.IOException;
 import java.security.NoSuchAlgorithmException;
 import java.security.spec.InvalidKeySpecException;
 
@@ -31,7 +32,7 @@ public abstract class Controller {
 	    return registration;
 	}
 		
-	protected boolean authentificateUser(String username, String token) {
+	boolean authentificateUser(String username, String token) {
 		User user = getUserDBC().findUserByName(username);
 		try {
 			if(user != null && PasswordHash.checkToken(user.getName(), user.getPassword(), token)) {
@@ -40,13 +41,12 @@ public abstract class Controller {
 				return false;
 			}
 		} catch (NoSuchAlgorithmException | InvalidKeySpecException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 			return false;
 		}
 	}
 	
-	protected void addToken(HttpServletResponse httpResponse, User user) {
+	private void addToken(HttpServletResponse httpResponse, User user) {
 		try {
 			Cookie token_cookie = new Cookie("token", PasswordHash.createToken(user.getName(), user.getPassword()));
 			token_cookie.setMaxAge(5*24*60*60*1000);
@@ -56,29 +56,38 @@ public abstract class Controller {
 			username_cookie.setMaxAge(5*24*60*60*1000);
 			httpResponse.addCookie(username_cookie);
 		} catch (NoSuchAlgorithmException | InvalidKeySpecException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
 	
-	protected void redirectToIndex(HttpServletResponse httpResponse) {
+	void redirectToIndex(HttpServletResponse httpResponse) {
 		httpResponse.setStatus(303);
 		httpResponse.setHeader(C.LOCATION, C.PATH_ANGULAR_INDEX);
-	}
+        try {
+            httpResponse.sendRedirect(C.PATH_ANGULAR_INDEX);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 	
-	protected void redirectToLauchpad(HttpServletResponse httpResponse, User user) {
+	void redirectToLauchpad(HttpServletResponse httpResponse, User user) {
 		httpResponse.setStatus(303);
 		httpResponse.setHeader(C.LOCATION, C.PATH_ANGULAR_LAUCHPAD);
 		addToken(httpResponse, user);
+        try {
+            httpResponse.sendRedirect(C.PATH_ANGULAR_LAUCHPAD);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 	}
-	
-	protected UserDBC getUserDBC() {
+
+	UserDBC getUserDBC() {
 		DBC dbc = new DBC();
 		DSLContext create = dbc.connect();
 		return new UserDBC(create);
 	}
 	
-	protected AppDBC getAppDBC() {
+	AppDBC getAppDBC() {
 		DBC dbc = new DBC();
 		DSLContext create = dbc.connect();
 		return new AppDBC(create);

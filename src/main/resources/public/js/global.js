@@ -1,9 +1,9 @@
 window.saveApply = function($scope) {
 	if ($scope.$root.$$phase !== '$apply' && $scope.$root.$$phase !== '$digest') {
-		console.log("update!");
+		console.log("saveApply: update!");
 	    $scope.$apply();
 	} else {
-		console.log("Snap!");
+		console.log("saveApply: Snap!");
 	}
 }
 
@@ -23,15 +23,16 @@ window.getToken = function(cookie_name) {
 	return null;
 }
 
-window.sendRequest = function(url, fn, additionalHeaders) {
-	var request = new XMLHttpRequest();
+window.sendRequest = function( url, fn, additionalHeaders ) {
+    var request = new XMLHttpRequest();
 	request.onreadystatechange = fn;
-	request.open('POST', url, true);
-	request.setRequestHeader("token", getToken("token"));
-	request.setRequestHeader("username", getToken("username"));
-	if(additionalHeaders) {
-		for(var key in additionalHeaders) {
-			if(additionalHeaders.hasOwnProperty(key)) {
+	request.open( 'POST', url, true );
+	request.setRequestHeader( "token", window.getToken("token") );
+	request.setRequestHeader( "username", window.getToken( "username" ) );
+	if( additionalHeaders ) {
+		for( var key in additionalHeaders ) {
+			if( additionalHeaders.hasOwnProperty(key) ) {
+			    console.log( "additionalHeaders", key, additionalHeaders[key] );
 				request.setRequestHeader(key, additionalHeaders[key]);
 			}
 		}

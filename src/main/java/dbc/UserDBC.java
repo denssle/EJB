@@ -71,10 +71,13 @@ public class UserDBC {
 	
 	public User findUserByName(String username) {
 		Record r = create.select().from(USERS).where(USERS.NAME.equal(username)).fetchOne();
-		Integer userid = r.getValue(USERS.ID);
-        String name = r.getValue(USERS.NAME);
-        String pw = r.getValue(USERS.PASSWORD);
-        return(new User(userid, name, pw));
+		if( r != null ) {
+			Integer userid = r.getValue(USERS.ID);
+			String name = r.getValue(USERS.NAME);
+			String pw = r.getValue(USERS.PASSWORD);
+			return(new User(userid, name, pw));
+		}
+		return null;
 	}
 	
 	public User isNameAndPassCorrect(String name, String pw) {
